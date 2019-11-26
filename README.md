@@ -12,7 +12,7 @@ The source code for this project is submitted as part of this Git repo (in the [
 
 Dependencies
 ---
-First of all, this project involves the Udacity Simulator which can be downloaded [here](https://github.com/udacity/self-driving-car-sim/releases)
+First of all, this project involves the Udacity Simulator which can be downloaded [here](https://github.com/udacity/self-driving-car-sim/releases).
 
 Furthermore, this repository includes two files that can be used to set up and install [uWebSocketIO](https://github.com/uWebSockets/uWebSockets) for either Linux or Mac systems. For windows you can use either Docker, VMware, or even [Windows 10 Bash on Ubuntu](https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/) to install uWebSocketIO.
 
@@ -37,6 +37,3 @@ The code is intended to be compiled using CMake and Make. After having cloned th
 1. Make a build directory: `mkdir build && cd build`
 2. Compile: `cmake .. && make` 
    * On windows, you may need to run: `cmake .. -G "Unix Makefiles" && make`
-
-
-
