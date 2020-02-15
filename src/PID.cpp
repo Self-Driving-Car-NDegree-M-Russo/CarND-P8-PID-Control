@@ -14,20 +14,29 @@ void PID::Init(double Kp_, double Ki_, double Kd_) {
   Ki = Ki_;
   Kd = Kd_;
 
-  // Initialize integral and derivative error
+  // Initialize errors
+  p_error = 0.0;
   i_error = 0.0;
   d_error = 0.0;
 
 }
 
 void PID::UpdateError(double cte) {
-  // Update errors based on current cross-track error
+  // previous cte
+  double prev_cte = p_error;
+
+  // Update errors based on current and previous cross-track error
+  p_error = cte;
   i_error += cte;
+  d_error = cte - prev_cte;
 }
 
-double PID::TotalError() {
+double PID::OutputSteeringAngle() {
   /**
-   * TODO: Calculate and return the total error
+   * Calculate steering angle
    */
-  return 0.0;  // TODO: Add your total error calc here!
+
+  double steering = -Kp*p_error - Ki*i_error -Kd*d_error;
+
+  return steering;  // TODO: Add your total error calc here!
 }

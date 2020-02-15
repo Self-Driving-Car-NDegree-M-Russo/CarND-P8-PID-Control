@@ -1,4 +1,15 @@
-.vscode
-build
-tags
-.editorconfig
+# Don't track content of these folders
+build/
+cmake-build-debug/
+src/.idea/
+
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+*.so

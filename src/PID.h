@@ -26,10 +26,10 @@ class PID {
   void UpdateError(double cte);
 
   /**
-   * Calculate the total PID error.
-   * @output The total PID error
+   * Calculate the total steering angle.
+   * @output The total steering angle
    */
-  double TotalError();
+  double OutputSteeringAngle();
 
  private:
   /**
