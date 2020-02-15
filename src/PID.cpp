@@ -1,14 +1,11 @@
 #include "PID.h"
-
-/**
- * TODO: Complete the PID class. You may add any additional desired functions.
- */
+#include <limits>
 
 PID::PID() {}
 
 PID::~PID() {}
 
-void PID::Init(double Kp_, double Ki_, double Kd_) {
+void PID::Init(double Kp_, double Ki_, double Kd_, bool do_tune_) {
   // Initialize coefficients
   Kp = Kp_;
   Ki = Ki_;
@@ -19,16 +16,25 @@ void PID::Init(double Kp_, double Ki_, double Kd_) {
   i_error = 0.0;
   d_error = 0.0;
 
+  // Initialize tuning parameters
+  do_tuning = do_tune_;
+
+  if (do_tuning){
+    it_count = 0;
+    tune_interval = 250;
+    best_err = std::numeric_limits<double>::max(); //Initialize to high value
+  }
 }
 
 void PID::UpdateError(double cte) {
-  // previous cte
-  double prev_cte = p_error;
-
   // Update errors based on current and previous cross-track error
+  // NOTE: Previous cte is stored in previous p_error, and so the calculation of i_error must happen before the
+  // update of p_error
+
+
+  d_error = cte - p_error;
   p_error = cte;
   i_error += cte;
-  d_error = cte - prev_cte;
 }
 
 double PID::OutputSteeringAngle() {
@@ -38,5 +44,5 @@ double PID::OutputSteeringAngle() {
 
   double steering = -Kp*p_error - Ki*i_error -Kd*d_error;
 
-  return steering;  // TODO: Add your total error calc here!
+  return steering;
 }

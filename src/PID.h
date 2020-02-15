@@ -15,9 +15,9 @@ class PID {
 
   /**
    * Initialize PID.
-   * @param (Kp_, Ki_, Kd_) The initial PID coefficients
+   * @param (Kp_, Ki_, Kd_, do_tune_) The initial PID coefficients, tuning flag
    */
-  void Init(double Kp_, double Ki_, double Kd_);
+  void Init(double Kp_, double Ki_, double Kd_, bool do_tune_);
 
   /**
    * Update the PID error variables given cross track error.
@@ -45,6 +45,17 @@ class PID {
   double Kp;
   double Ki;
   double Kd;
+
+  /**
+   * Parameters to be used for tuning (twiddle)
+   */
+  bool do_tuning;     // Flag indicating whether or not tuning is needed
+  int it_count;       // Counter of iterations
+  int tune_interval;  // Number of steps between every parameter's adjustment
+  double best_err;    // Best error, to be update
+  double p[3];        // Vector for the coefficients
+  double dp[3];       // Vector for coefficient changes
+  double threshold;   // Threshold for the tuning
 };
 
 #endif  // PID_H
