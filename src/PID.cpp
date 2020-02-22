@@ -6,6 +6,11 @@ PID::PID() {}
 PID::~PID() {}
 
 void PID::Init(double Kp_, double Ki_, double Kd_, bool do_tune_) {
+  /**
+   * Initialize PID.
+   * @param (Kp_, Ki_, Kd_, do_tune_) The initial PID coefficients, tuning flag
+   */
+
   // Initialize coefficients
   Kp = Kp_;
   Ki = Ki_;
@@ -27,11 +32,14 @@ void PID::Init(double Kp_, double Ki_, double Kd_, bool do_tune_) {
 }
 
 void PID::UpdateError(double cte) {
-  // Update errors based on current and previous cross-track error
+  /**
+   * Update the PID error variables given cross track error.
+   * @param cte: The current cross track error
+   */
+
+
   // NOTE: Previous cte is stored in previous p_error, and so the calculation of i_error must happen before the
   // update of p_error
-
-
   d_error = cte - p_error;
   p_error = cte;
   i_error += cte;
@@ -39,7 +47,8 @@ void PID::UpdateError(double cte) {
 
 double PID::OutputSteeringAngle() {
   /**
-   * Calculate steering angle
+   * Calculate the total steering angle.
+   * @output The total steering angle
    */
 
   double steering = -Kp*p_error - Ki*i_error -Kd*d_error;
