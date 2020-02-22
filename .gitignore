@@ -1,5 +1,7 @@
 # Don't track content of these folders
 build/
+debug/
+Release/
 cmake-build-debug/
 src/.idea/
 .idea/
