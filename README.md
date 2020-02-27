@@ -32,8 +32,24 @@ Other important dependencies are:
 Compiling the Code
 ---
 
-The code is intended to be compiled using CMake and Make. After having cloned this repo and taken care of the dependencies outlined here above you should just need to: 
+The code is intended to be compiled using CMake and Make. The guideline followed here is to have a `Release` and `Debug` build profile, as suggested in [here](https://stackoverflow.com/questions/7724569/debug-vs-release-in-cmake) and in the references within.
 
-1. Make a build directory: `mkdir build && cd build`
-2. Compile: `cmake .. && make` 
-   * On windows, you may need to run: `cmake .. -G "Unix Makefiles" && make`
+After having cloned this repo and taken care of the dependencies outlined here above, for the `Debug` case you should need to run the following commands from the project's root: 
+
+```
+  mkdir debug
+  cd debug
+  cmake -DCMAKE_BUILD_TYPE=Debug ..
+  make
+```
+
+while for the `Release` case, again from the project's root you will need to run: 
+
+```
+  mkdir release
+  cd release
+  cmake -DCMAKE_BUILD_TYPE=Release ..
+  make
+```
+
+CMake will take care of the dependencies. In the `Debug` case a flag has been deined in the CMakeFiles.txt to allow printout on screen of various messages.
