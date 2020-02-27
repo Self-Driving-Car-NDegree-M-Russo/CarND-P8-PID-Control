@@ -52,4 +52,11 @@ while for the `Release` case, again from the project's root you will need to run
   make
 ```
 
-CMake will take care of the dependencies. In the `Debug` case a flag has been deined in the CMakeFiles.txt to allow printout on screen of various messages.
+CMake will take care of the dependencies. In the `Debug` case a flag has been deined in the [CMakeFiles.txt](src/CmakeLists.txt) (line) to allow printout on screen of various messages:
+
+```
+   set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DPID_DEBUG")
+```
+
+An example of this can be found in [main.cpp](src/main.cpp) on lines:
+
