@@ -58,5 +58,12 @@ CMake will take care of the dependencies. In the `Debug` case a flag has been de
    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DPID_DEBUG")
 ```
 
-An example of this can be found in [main.cpp](src/main.cpp) on lines:
+An example of this can be found in [main.cpp](src/main.cpp) on lines (69-73):
 
+```
+  // DEBUG
+  #ifdef PID_DEBUG
+     std::cout << "CTE: " << cte << " Steering Value: " << steer_value
+          << std::endl;
+  #endif
+```          
