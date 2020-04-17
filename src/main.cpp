@@ -1,6 +1,7 @@
 #include <math.h>
 #include <uWS/uWS.h>
 #include <iostream>
+#include <sstream>
 #include <string>
 #include "json.hpp"
 #include "PID.h"
@@ -36,11 +37,27 @@ int main() {
   // Instantiate PID object
   PID pid;
 
-  // Set tuning
+  // Set PID gains
+  double Kp = 0.1;      // Initial value for Kp
+  double Ki = 0.001;    // Initial value for Ki
+  double Kd = 2.8;      // Initial value for Kd
+  std::cout << "Values for PID gains - Kp = " << Kp << "; Ki = " << Ki << "; Kd = " << Kd << std::endl;
+
+  //Set tuning flag
   bool do_tune = false;
+  string do_tune_in;
+  std::cout <<"Do you want to enable tuning with Gradient Ascent (Twiddle) method [y/(n)]? ";
+  getline(std::cin, do_tune_in);
+  if ((do_tune_in.compare("Y") == 0) || (do_tune_in.compare("y") == 0)){
+    std::cout << "Tuning enabled" <<std::endl;
+    do_tune = true;
+  }
+  else {
+    std::cout << "Tuning NOT enabled" <<std::endl;
+  }
 
   // Initialize PID
-  pid.Init(0.1, 0.001, 2.8, do_tune);
+  pid.Init(Kp, Ki, Kd, do_tune);
 
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, 
                      uWS::OpCode opCode) {
