@@ -15,9 +15,33 @@ class PID {
 
   /**
    * Initialize PID.
-   * @param (Kp_, Ki_, Kd_, do_tune_) The initial PID coefficients, tuning flag
+   * @param (Kp_, Ki_, Kd_, do_tune_) The initial PID gains, tuning flag
    */
   void Init(double Kp_, double Ki_, double Kd_, bool do_tune_);
+
+  /**
+   * Set PID gains
+   * @param (Kp_, Ki_, Kd_) The PID gains
+   */
+  void SetGains(double Kp_, double Ki_, double Kd_);
+
+  /**
+   * Get the current proportional gain.
+   * @output Current value for Kp
+   */
+  double GetKp();
+
+  /**
+   * Get the current integral gain.
+   * @output Current value for Ki
+   */
+  double GetKi();
+
+  /**
+   * Get the current integral gain.
+   * @output Current value for Kd
+   */
+  double GetKd();
 
   /**
    * Update the PID error variables given cross track error.
@@ -30,6 +54,11 @@ class PID {
    * @output The total steering angle
    */
   double OutputSteeringAngle();
+
+  /**
+   * Tune PID gains using Coordinate Ascent (Twiddle) method.
+   */
+  void TuneGains();
 
  private:
   /**
@@ -51,7 +80,9 @@ class PID {
    */
   bool do_tuning;     // Flag indicating whether or not tuning is needed
   int it_count;       // Counter of iterations
+  int ad_count;       // Number of parameter's adjustements
   int tune_interval;  // Number of steps between every parameter's adjustment
+  int max_adjust;     // Max number of adjustments to execute
   double best_err;    // Best error, to be update
   double p[3];        // Vector for the coefficients
   double dp[3];       // Vector for coefficient changes
