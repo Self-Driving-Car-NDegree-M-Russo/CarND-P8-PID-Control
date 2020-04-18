@@ -68,6 +68,8 @@ class PID {
   double i_error;
   double d_error;
 
+  double s_error; // total cte squared (to be used by Tuning algorithm)
+
   /**
    * PID Coefficients
    */ 
@@ -76,7 +78,7 @@ class PID {
   double Kd;
 
   /**
-   * Parameters to be used for tuning (twiddle)
+   * Parameters to be used for tuning (Twiddle)
    */
   bool do_tuning;     // Flag indicating whether or not tuning is needed
   int it_count;       // Counter of iterations
