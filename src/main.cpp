@@ -89,6 +89,11 @@ int main() {
                     << std::endl;
           #endif
 
+          // If tuning flag active, call tuning algorithm
+          if (pid.GetTuneFlag()){
+            pid.TuneGains();
+          }
+
           json msgJson;
           msgJson["steering_angle"] = steer_value;
           msgJson["throttle"] = 0.3;

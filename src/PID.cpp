@@ -1,6 +1,8 @@
 #include "PID.h"
 #include <limits>
 #include <iostream>
+#include <math.h>
+#include <jmorecfg.h>
 
 PID::PID() {}
 
@@ -41,6 +43,11 @@ void PID::Init(double Kp_, double Ki_, double Kd_, bool do_tune_) {
     dp[0] = Kp*0.1;       // Delta vector initialized to 10% of gains
     dp[1] = Ki*0.1;
     dp[2] = Kd*0.1;
+
+    p_it = 0;             // Iterator over p, dp vectors
+
+    p_plus = true;
+    p_minus = true;
 
     // Initialize error and tolerance
     best_err = std::numeric_limits<double>::max();  //Initialize to high value
@@ -91,6 +98,16 @@ double PID::GetKd() {
   return Kd;
 }
 
+bool PID::GetTuneFlag() {
+  /**
+   * Get the current tuning flagn.
+   * @output Current value for tuning flag
+   */
+
+  // Get tuning flag
+  return do_tuning;
+}
+
 void PID::UpdateError(double cte) {
   /**
    * Update the PID error variables given cross track error.
@@ -103,7 +120,7 @@ void PID::UpdateError(double cte) {
   p_error = cte;
   i_error += cte;
 
-  s_error += cte*cte;
+  s_error = sqrt(pow(cte,2));
 }
 
 double PID::OutputSteeringAngle() {
@@ -123,53 +140,48 @@ void PID::TuneGains() {
    */
 
   // TODO
+  // Count iterations
+  it_count += 1;
+  std::cout<<"Iteration : " << it_count << std::endl;
 
-  /*
-   *
-   * /**
-    * Twiddle - Hyperparameter Tuning
-    */
+  // Run tuning algorithm every tune_interval steps, and no more than max_adjust times
+  if (it_count % tune_interval == 0){
+    if (ad_count < max_adjust){
+      ad_count += 1;
+      std::cout << "ACTIVATE TUNING SEQUENCE FOR " << ad_count << " TIME" << std::endl;
 
-//  //Get total error based on cross track error
-//  total_err += cte*cte;
-//
-//  //Run the twiddle algorithm every 'n' evaluation steps
-//  if(step_num % numSteps == 0) {
-//    //if the current error is a new best, update
-//    if(total_err < best_err) {
-//      best_err = total_err;
-//      p[p_index] *= 1.1;
-//
-//      //Setup for the twiddler
-//      p_add = p_sub = false;
-//    }
-//
-//    if(!p_add && !p_sub) {
-//      //First iteration after start of cycle, add elements
-//      Twiddler(p_index, p[p_index]);
-//      p_add = true;
-//    } else if(p_add && !p_sub) {
-//      //Second iteration after cycle
-//      //No best error found,
-//      Twiddler(p_index, -2*p[p_index]);
-//      p_sub = true;
-//    } else {
-//      //Third iteration
-//      //No best error found after two attempts, time to try something new
-//      Twiddler(p_index, p[p_index]);
-//      p[p_index] *= 0.9;
-//      p_add = p_sub = false;
-//
-//      //Cycle through the 3 hyperparameters
-//      p_index = (p_index + 1) % 3;
-//    }
-//    //Reset total error at end of cycle
-//    total_err = 0;
-//
-//    //Debugging prompts
-//    std::cout << "Adjusted parameters ..." << "\n";
-//    std::cout << "Kp = " << Kp << " Ki = " << Ki << " Kd = " << Kd << "\n\n";
-//  }
-//
-//  step_num++;
+      while((dp[0] + dp [1] + dp[2]) < threshold) {
+
+        if (s_error < best_err) {
+          best_err = s_error;
+          dp[p_it] *= 1.1;
+          p_plus = false;
+          p_minus = false;
+        }
+
+        if (!p_plus && !p_minus) {
+          // Case number one: best error found, no operations executed. Increment p[p_it] by dp[p_it]
+          p[p_it] += dp[p_it];
+          // TODO: Update actual gains based on p vector - use SetGains
+          p_plus = true;
+        } else if (p_plus && !p_minus) {
+          // Case number two: increment p executed but NO best error found. Decrement p[it] by 2*dp[p_it]
+          p[p_it] -= dp[p_it];
+          // TODO: Update actual gains based on p vector - use SetGains
+          p_minus = true;
+        } else {
+          // Case number three: increment and decrement executed, but NO best error found. Reduce increment interval and
+          // restart
+          p[p_it] += dp[p_it];
+          // TODO: Update actual gains based on p vector - use SetGains
+          p_plus = false;
+          p_minus = false;
+
+          // Increment p_it, looping over [0,1,2]
+          p_it = (p_it + 1) % 3;
+        }
+        
+      }
+    }
+  }
 }

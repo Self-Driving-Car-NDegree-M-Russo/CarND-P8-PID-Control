@@ -44,6 +44,12 @@ class PID {
   double GetKd();
 
   /**
+   * Get the current tuning flagn.
+   * @output Current value for tuning flag
+   */
+  bool GetTuneFlag();
+
+  /**
    * Update the PID error variables given cross track error.
    * @param cte The current cross track error
    */
@@ -80,15 +86,17 @@ class PID {
   /**
    * Parameters to be used for tuning (Twiddle)
    */
-  bool do_tuning;     // Flag indicating whether or not tuning is needed
-  int it_count;       // Counter of iterations
-  int ad_count;       // Number of parameter's adjustements
-  int tune_interval;  // Number of steps between every parameter's adjustment
-  int max_adjust;     // Max number of adjustments to execute
-  double best_err;    // Best error, to be update
-  double p[3];        // Vector for the coefficients
-  double dp[3];       // Vector for coefficient changes
-  double threshold;   // Threshold for the tuning
+  bool do_tuning;       // Flag indicating whether or not tuning is needed
+  int it_count;         // Counter of iterations
+  int ad_count;         // Number of parameter's adjustements
+  int tune_interval;    // Number of steps between every parameter's adjustment
+  int max_adjust;       // Max number of adjustments to execute
+  double best_err;      // Best error, to be update
+  double p[3];          // Vector for the coefficients
+  double dp[3];         // Vector for coefficient changes
+  int p_it;             // Itreating index over p, dp vectors
+  bool p_plus, p_minus; // Flags to use when iterating over p, dp vectors
+  double threshold;     // Threshold for the tuning
 };
 
 #endif  // PID_H
