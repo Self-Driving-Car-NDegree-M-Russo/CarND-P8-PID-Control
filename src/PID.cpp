@@ -31,9 +31,9 @@ void PID::Init(double Kp_, double Ki_, double Kd_, bool do_tune_) {
 
     // Initialize counters
     it_count = 0;         // Iteration counter
-    tune_interval = 250;  // Number of iterations between 2 consecutive tuning adjustments
+    tune_interval = 10000;  // Number of iterations between 2 consecutive tuning adjustments
     ad_count = 0;         // Adjustment counter
-    max_adjust = 5;       // Max number of adjustments
+    max_adjust = 1;       // Max number of adjustments
 
     // Initialize vectors
     p[0] = Kp;
@@ -51,7 +51,7 @@ void PID::Init(double Kp_, double Ki_, double Kd_, bool do_tune_) {
 
     // Initialize error and tolerance
     best_err = std::numeric_limits<double>::max();  //Initialize to high value
-    threshold = 0.001;
+    threshold = 0.01;
   }
 }
 
@@ -138,21 +138,27 @@ void PID::TuneGains() {
   /**
    * Tune PID gains using Coordinate Ascent (Twiddle) method.
    */
+  double dp_avg = (fabs(dp[0]/p[0]) + fabs(dp[1]/p[1]) + fabs(dp[2]/p[2])) / 3.0;
 
-  // TODO
   // Count iterations
   it_count += 1;
-  std::cout<<"Iteration : " << it_count << std::endl;
+  std::cout<<"Iteration : " << it_count << " - START " << std::endl;
+
+  // Evaluate average dp against threshold
+  std::cout << "Average dp/p = " << dp_avg << " against threshold : " << threshold << std::endl;
 
   // Run tuning algorithm every tune_interval steps, and no more than max_adjust times
-  if (it_count % tune_interval == 0){
+  // TEST
+  if ((it_count <100000) && (dp_avg > threshold)){
     if (ad_count < max_adjust){
-      ad_count += 1;
-      std::cout << "ACTIVATE TUNING SEQUENCE FOR " << ad_count << " TIME" << std::endl;
+      //ad_count += 1;
+      //std::cout << "ACTIVATE TUNING SEQUENCE FOR " << ad_count << " TIME" << std::endl;
 
-      while((dp[0] + dp [1] + dp[2]) < threshold) {
+
+        std::cout<<"Current p index : " << p_it << std::endl;
 
         if (s_error < best_err) {
+          std::cout << "Changing error from : " << best_err << " to : " << s_error << std::endl;
           best_err = s_error;
           dp[p_it] *= 1.1;
           p_plus = false;
@@ -160,28 +166,45 @@ void PID::TuneGains() {
         }
 
         if (!p_plus && !p_minus) {
-          // Case number one: best error found, no operations executed. Increment p[p_it] by dp[p_it]
+          // (Cycle start) Case number one: best error found, no operations executed. Increment p[p_it] by dp[p_it]
+          std::cout<< "Case number one: best error found, no operations executed. Increment p[p_it] by dp[p_it] " << std::endl;
           p[p_it] += dp[p_it];
-          // TODO: Update actual gains based on p vector - use SetGains
+
+          // Set gains
+          SetGains(p[0],p[1],p[2]);
+
           p_plus = true;
         } else if (p_plus && !p_minus) {
           // Case number two: increment p executed but NO best error found. Decrement p[it] by 2*dp[p_it]
-          p[p_it] -= dp[p_it];
-          // TODO: Update actual gains based on p vector - use SetGains
+          std::cout << "Case number two: increment p executed but NO best error found. Decrement p[it] by 2*dp[p_it]" << std::endl;
+          p[p_it] -= 2*dp[p_it];
+
+          // Set gains
+          SetGains(p[0],p[1],p[2]);
+
           p_minus = true;
         } else {
           // Case number three: increment and decrement executed, but NO best error found. Reduce increment interval and
           // restart
+          std::cout<< "Case number three: increment and decrement executed, but NO best error found. Reduce increment interval and restart" << std::endl;
           p[p_it] += dp[p_it];
-          // TODO: Update actual gains based on p vector - use SetGains
+
+          // Set gains
+          SetGains(p[0],p[1],p[2]);
+
+          dp[p_it] *= 0.9;
           p_plus = false;
           p_minus = false;
 
           // Increment p_it, looping over [0,1,2]
           p_it = (p_it + 1) % 3;
+
         }
-        
-      }
+
+        //Debugging prompts
+        std::cout << "Adjusted parameters ..." << std::endl;
+        std::cout << "Kp = " << GetKp() << " Ki = " << GetKi() << " Kd = " << GetKd() << std::endl;
+
     }
   }
 }

@@ -44,18 +44,19 @@ int main() {
   std::cout << "Values for PID gains - Kp = " << Kp << "; Ki = " << Ki << "; Kd = " << Kd << std::endl;
 
   //Set tuning flag
-  bool do_tune = false;
-  string do_tune_in;
-  std::cout <<"Do you want to enable tuning with Gradient Ascent (Twiddle) method [y/(n)]? ";
-  getline(std::cin, do_tune_in);
-  if ((do_tune_in.compare("Y") == 0) || (do_tune_in.compare("y") == 0)){
-    std::cout << "Tuning enabled" <<std::endl;
-    do_tune = true;
-  }
-  else {
-    std::cout << "Tuning NOT enabled" <<std::endl;
-  }
+//  bool do_tune = false;
+//  string do_tune_in;
+//  std::cout <<"Do you want to enable tuning with Gradient Ascent (Twiddle) method [y/(n)]? ";
+//  getline(std::cin, do_tune_in);
+//  if ((do_tune_in.compare("Y") == 0) || (do_tune_in.compare("y") == 0)){
+//    std::cout << "Tuning enabled" <<std::endl;
+//    do_tune = true;
+//  }
+//  else {
+//    std::cout << "Tuning NOT enabled" <<std::endl;
+//  }
 
+  bool do_tune = true;
   // Initialize PID
   pid.Init(Kp, Ki, Kd, do_tune);
 
