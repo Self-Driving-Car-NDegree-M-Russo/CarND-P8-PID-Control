@@ -54,6 +54,8 @@ int main() {
   }
   else {
     std::cout << "Tuning NOT enabled" <<std::endl;
+    std::cout << "Running parameters ..." << std::endl;
+    std::cout << "Kp = " << Kp << " Ki = " << Ki << " Kd = " << Kd << std::endl;
   }
 
   // Initialize PID
