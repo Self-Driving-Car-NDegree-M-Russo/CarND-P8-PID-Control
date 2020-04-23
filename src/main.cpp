@@ -1,10 +1,19 @@
 #include <math.h>
 #include <uWS/uWS.h>
 #include <iostream>
+#include <fstream>
 #include <sstream>
 #include <string>
 #include "json.hpp"
 #include "PID.h"
+
+#include <boost/log/trivial.hpp>
+#include <boost/log/common.hpp>
+#include <boost/log/attributes.hpp>
+#include <boost/log/utility/setup/from_stream.hpp>
+
+namespace logging = boost::log;
+namespace attrs = boost::log::attributes;
 
 // for convenience
 using nlohmann::json;
@@ -34,6 +43,26 @@ string hasData(string s) {
 int main() {
   uWS::Hub h;
 
+  // INITIALIZE LOGGER
+
+  // Open the log settings file
+  std::string logFileSettingsName = "../logs/settings.txt";
+  std::ifstream settings(logFileSettingsName);
+  if (!settings.is_open())
+  {
+    std::cerr << "Could not open log settings file: " << logFileSettingsName << std::endl;
+    return -1;
+  }
+
+  // Read the settings and initialize logging library
+  logging::init_from_stream(settings);
+
+  // Add some attributes
+  logging::core::get()->add_global_attribute("TimeStamp", attrs::local_clock()); // each log line gets a timestamp
+  logging::core::get()->add_global_attribute("LineID", attrs::counter<unsigned int>(1)); // lines are sequentially numbered
+
+  // LOGGER INITIALIZED
+
   // Instantiate PID object
   PID pid;
 
@@ -41,7 +70,8 @@ int main() {
   double Kp = 0.1;      // Initial value for Kp
   double Ki = 0.001;    // Initial value for Ki
   double Kd = 2.8;      // Initial value for Kd
-  std::cout << "Values for PID gains - Kp = " << Kp << "; Ki = " << Ki << "; Kd = " << Kd << std::endl;
+  std::cout << "Initial values for PID gains - Kp = " << Kp << "; Ki = " << Ki << "; Kd = " << Kd << std::endl;
+  BOOST_LOG_TRIVIAL(debug) << "Initial values for PID gains - Kp = " << Kp << "; Ki = " << Ki << "; Kd = " << Kd;
 
   //Set tuning flag
   bool do_tune = false;
@@ -54,8 +84,6 @@ int main() {
   }
   else {
     std::cout << "Tuning NOT enabled" <<std::endl;
-    std::cout << "Running parameters ..." << std::endl;
-    std::cout << "Kp = " << Kp << " Ki = " << Ki << " Kd = " << Kd << std::endl;
   }
 
   // Initialize PID
@@ -86,10 +114,7 @@ int main() {
           steer_value = pid.OutputSteeringAngle();
 
           // DEBUG
-          #ifdef PID_DEBUG
-            std::cout << "CTE: " << cte << " Steering Value: " << steer_value
-                    << std::endl;
-          #endif
+          BOOST_LOG_TRIVIAL(debug) << "CTE: " << cte << " Steering Value: " << steer_value;
 
           // If tuning flag active, call tuning algorithm
           if (pid.GetTuneFlag()){
@@ -102,9 +127,7 @@ int main() {
           auto msg = "42[\"steer\"," + msgJson.dump() + "]";
 
           // DEBUG
-          #ifdef PID_DEBUG
-            std::cout << msg << std::endl;
-          #endif
+          BOOST_LOG_TRIVIAL(debug) << msg;
 
           ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
         }  // end "telemetry" if

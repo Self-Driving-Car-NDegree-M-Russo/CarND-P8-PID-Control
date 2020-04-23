@@ -4,6 +4,14 @@
 #include <math.h>
 #include <jmorecfg.h>
 
+#include <boost/log/trivial.hpp>
+#include <boost/log/common.hpp>
+#include <boost/log/attributes.hpp>
+#include <boost/log/utility/setup/from_stream.hpp>
+
+namespace logging = boost::log;
+namespace attrs = boost::log::attributes;
+
 PID::PID() {}
 
 PID::~PID() {}
@@ -125,10 +133,7 @@ void PID::UpdateError(double cte) {
   // Count iterations
   it_count += 1;
 
-  #ifdef PID_DEBUG
-    std::cout << "*************************" << std::endl;
-    std::cout<<"Iteration : " << it_count << std::endl;
-  #endif
+  BOOST_LOG_TRIVIAL(debug) <<"Iteration : " << it_count;
 }
 
 double PID::OutputSteeringAngle() {
@@ -158,18 +163,13 @@ void PID::TuneGains() {
     if (dp_avg > threshold) {
 
       // Evaluate average dp against threshold
-      #ifdef PID_DEBUG
-        std::cout << "-------------------------" << std::endl;
-        std::cout << "Average dp/p = " << dp_avg << " against threshold : " << threshold << std::endl;
-        std::cout << "-------------------------" << std::endl;
-        std::cout << "TUNING" << std::endl;
-        std::cout << "Current p index : " << p_it << std::endl;
-      #endif
+      BOOST_LOG_TRIVIAL(debug) << "Average dp/p = " << dp_avg << " against threshold : " << threshold;
+      BOOST_LOG_TRIVIAL(debug) << "TUNING..";
+      BOOST_LOG_TRIVIAL(debug) << "Current p index : " << p_it;
 
       if (p_plus) {
-        #ifdef PID_DEBUG
-          std::cout << "Cycle start - Increment p[p_it] by dp[p_it] " << std::endl;
-        #endif
+        BOOST_LOG_TRIVIAL(debug) << "Cycle start - Increment p[p_it] by dp[p_it] ";
+
         p[p_it] += dp[p_it];
 
         // Set gains
@@ -178,20 +178,18 @@ void PID::TuneGains() {
         p_plus = false;
       } else {
         if (s_error < best_err) {
-          #ifdef PID_DEBUG
-            std::cout << "Case number one: best error found, no operations executed. Increment dp[p_it] " << std::endl;
-            std::cout << "Changing best error from : " << best_err << " to : " << s_error << std::endl;
-          #endif
+          BOOST_LOG_TRIVIAL(debug) << "Case number one: best error found, no operations executed. Increment dp[p_it]";
+          BOOST_LOG_TRIVIAL(debug) << "Changing best error from : " << best_err << " to : " << s_error;
+
           best_err = s_error;
           dp[p_it] *= 1.1;
 
           move_p_it = true;
         } else {
           if (p_minus) {
-            #ifdef PID_DEBUG
-              std::cout << "Case number two: increment p executed but NO best error found. Decrement p[it] by "
-                           "2*dp[p_it]" << std::endl;
-            #endif
+            BOOST_LOG_TRIVIAL(debug) << "Case number two: increment p executed but NO best error found. Decrement p[it]"
+                                        " byy 2*dp[p_it]";
+
             p[p_it] -= 2 * dp[p_it];
 
             // Set gains
@@ -199,10 +197,9 @@ void PID::TuneGains() {
 
             p_minus = false;
           } else {
-            #ifdef PID_DEBUG
-              std::cout << "Case number three: increment and decrement executed, but NO best error found. Reset and "
-                         "reduce increment" << std::endl;
-            #endif
+            BOOST_LOG_TRIVIAL(debug) << "Case number three: increment and decrement executed, but NO best error found."
+                                        " Reset and reduce increment";
+
             p[p_it] += dp[p_it];
 
             // Set gains
@@ -227,12 +224,9 @@ void PID::TuneGains() {
       }
     }
 
-    #ifdef PID_DEBUG
-      std::cout << "-------------------------" << std::endl;
-      std::cout << "Adjusted parameters ..." << std::endl;
-      std::cout << "Kp = " << GetKp() << " Ki = " << GetKi() << " Kd = " << GetKd() << std::endl;
-      std::cout << "dKp = " << dp[0] << " dKi = " << dp[1] << " Kd = " << dp[2] << std::endl;
-      std::cout << "Error = " << s_error << std::endl;
-    #endif
+    BOOST_LOG_TRIVIAL(debug) << "Adjusted parameters ...";
+    BOOST_LOG_TRIVIAL(debug) << "Kp = " << GetKp() << " Ki = " << GetKi() << " Kd = " << GetKd();
+    BOOST_LOG_TRIVIAL(debug) << "dKp = " << dp[0] << " dKi = " << dp[1] << " Kd = " << dp[2];
+    BOOST_LOG_TRIVIAL(debug) << "Error = " << s_error;
   }
 }

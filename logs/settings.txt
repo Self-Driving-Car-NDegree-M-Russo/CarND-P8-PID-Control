@@ -4,16 +4,16 @@
 # Logging core settings section. May be omitted if no parameters specified within it.
 [Core]
 DisableLogging=false
-Filter="%Severity% >= warning"
-
 
 # Sink settings sections
 [Sinks.1]
 Destination=Console
+Filter="%Severity% >= info"
 Format="%TimeStamp% [%Severity%] *** %Message%"
 
 [Sinks.2]
 Destination=TextFile
 FileName="../logs/logfile_%Y%m%d_%H%M%S.log"
+Filter="%Severity% >= debug"
 AutoFlush=true
 Format="[%LineID%] [%TimeStamp%] [%Severity%] %Message%"
