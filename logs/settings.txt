@@ -1,0 +1,19 @@
+# Comments are allowed. Comment line begins with the '#' character
+# and spans until the end of the line.
+
+# Logging core settings section. May be omitted if no parameters specified within it.
+[Core]
+DisableLogging=false
+Filter="%Severity% >= warning"
+
+
+# Sink settings sections
+[Sinks.1]
+Destination=Console
+Format="%TimeStamp% [%Severity%] *** %Message%"
+
+[Sinks.2]
+Destination=TextFile
+FileName="../logs/logfile_%Y%m%d_%H%M%S.log"
+AutoFlush=true
+Format="[%LineID%] [%TimeStamp%] [%Severity%] %Message%"
