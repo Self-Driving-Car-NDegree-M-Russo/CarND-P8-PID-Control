@@ -24,6 +24,7 @@ include_directories ($(BOOST_LIBRARYDIR))
 include_directories ($(BOOST_INCLUDEDIRS))
 
 include_directories(/usr/local/include)
+
 link_directories(/usr/local/lib)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") 
@@ -33,6 +34,8 @@ link_directories(/usr/local/opt/openssl/lib)
 link_directories(/usr/local/Cellar/libuv/1*/lib)
 
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+
+add_subdirectory(test)
 
 add_executable(pid ${sources})
 
