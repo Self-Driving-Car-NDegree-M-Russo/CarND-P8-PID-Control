@@ -70,9 +70,11 @@ int main() {
   double Kp = 0.1;      // Initial value for Kp
   double Ki = 0.001;    // Initial value for Ki
   double Kd = 2.8;      // Initial value for Kd
-  std::cout << "Initial values for PID gains - Kp = " << Kp << "; Ki = " << Ki << "; Kd = " << Kd << std::endl;
-  BOOST_LOG_TRIVIAL(debug) << "Initial values for PID gains - Kp = " << Kp << "; Ki = " << Ki << "; Kd = " << Kd;
 
+  // User input section
+  std::cout << "====================" << std::endl;
+  std::cout << "Initial values for PID gains - Kp = " << Kp << "; Ki = " << Ki << "; Kd = " << Kd << std::endl;
+  std::cout << "====================" << std::endl;
   //Set tuning flag
   bool do_tune = false;
   string do_tune_in;
@@ -85,6 +87,7 @@ int main() {
   else {
     std::cout << "Tuning NOT enabled" <<std::endl;
   }
+  std::cout << "====================" << std::endl;
 
   // Initialize PID
   pid.Init(Kp, Ki, Kd, do_tune);
@@ -140,20 +143,20 @@ int main() {
   }); // end h.onMessage
 
   h.onConnection([&h](uWS::WebSocket<uWS::SERVER> ws, uWS::HttpRequest req) {
-    std::cout << "Connected!!!" << std::endl;
+      BOOST_LOG_TRIVIAL(info) << "Connected!!!";
   });
 
   h.onDisconnection([&h](uWS::WebSocket<uWS::SERVER> ws, int code, 
                          char *message, size_t length) {
     ws.close();
-    std::cout << "Disconnected" << std::endl;
+      BOOST_LOG_TRIVIAL(info) << "Disconnected";
   });
 
   int port = 4567;
   if (h.listen(port)) {
-    std::cout << "Listening to port " << port << std::endl;
+    BOOST_LOG_TRIVIAL(info) << "Listening to port " << port;
   } else {
-    std::cerr << "Failed to listen to port" << std::endl;
+    BOOST_LOG_TRIVIAL(error) << "Failed to listen to port";
     return -1;
   }
   

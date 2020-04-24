@@ -35,6 +35,9 @@ void PID::Init(double Kp_, double Ki_, double Kd_, bool do_tune_) {
   // Initialize tuning parameters
   do_tuning = do_tune_;
 
+  BOOST_LOG_TRIVIAL(info) << "Initial values for PID gains - Kp = " << Kp << "; Ki = " << Ki << "; Kd = " << Kd;
+  BOOST_LOG_TRIVIAL(info) << "Tuning flag = " << do_tuning;
+
   if (do_tuning){
 
     // Initialize counters
