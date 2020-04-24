@@ -7,7 +7,6 @@
 
 #include <boost/log/trivial.hpp>
 #include <boost/log/common.hpp>
-#include <boost/log/attributes.hpp>
 #include <boost/log/utility/setup/from_stream.hpp>
 
 #include "../src/PID.h"
@@ -21,72 +20,136 @@ using namespace boost::unit_test;
 
 BOOST_AUTO_TEST_SUITE(PIDTestSuite)
 
-    struct TestFixture
-    {
-        TestFixture() : i( 0 ) {
+  struct TestFixture {
+    TestFixture() {
 
-          // INITIALIZE LOGGER
+      // INITIALIZE LOGGER
 
-          // Open the log settings file
-          std::string logFileSettingsName = "../../logs/settings_for_test.txt";
-          std::ifstream settings(logFileSettingsName);
-          if (!settings.is_open())
-          {
-            std::cerr << "Could not open log settings file: " << logFileSettingsName << std::endl;
-          }
+      // Open the log settings file
+      std::string logFileSettingsName = "../../logs/settings_for_test.txt";
+      std::ifstream settings(logFileSettingsName);
+      if (!settings.is_open()) {
+        std::cerr << "Could not open log settings file: " << logFileSettingsName << std::endl;
+      }
 
-          // Read the settings and initialize logging library
-          logging::init_from_stream(settings);
+      // Read the settings and initialize logging library
+      logging::init_from_stream(settings);
 
-          // Add some attributes
-          logging::core::get()->add_global_attribute("TimeStamp", attrs::local_clock()); // each log line gets a timestamp
-          logging::core::get()->add_global_attribute("LineID", attrs::counter<unsigned int>(1)); // lines are sequentially numbered
+      // LOGGER INITIALIZED
 
-          // LOGGER INITIALIZED
+      BOOST_TEST_MESSAGE ("Setup Test Fixture");
+    }
 
-          BOOST_LOG_TRIVIAL(info) << "Initialize Test";
+    ~TestFixture() {
+      BOOST_TEST_MESSAGE ("Teardown Test Fixture");
+    }
 
-        }
-
-        ~TestFixture() {
-          BOOST_LOG_TRIVIAL(info) << "Cleanup Test";
-        }
-        int i ;
+        int i;
     };
 
+    BOOST_FIXTURE_TEST_CASE(PIDInitTest, TestFixture) {
 
-    BOOST_FIXTURE_TEST_CASE(BoostCheckTest, TestFixture)
-    {
-        // Provide a test predicate (i.e. a conditional statement) that evaluates
-        // to true to allow the test to pass and will not indicate a failed test.
+      BOOST_TEST_MESSAGE ("Entering Init Test");
 
-        PID pid;
+      PID pid;
 
-        // Define PID gains
-        double Kp = 0.1;      // Initial value for Kp
-        double Ki = 0.001;    // Initial value for Ki
-        double Kd = 2.8;      // Initial value for Kd
+      // Define PID gains
+      double Kp = 0.1;      // Initial value for Kp
+      double Ki = 0.001;    // Initial value for Ki
+      double Kd = 2;      // Initial value for Kd
 
-        // Define tuning variable
-        bool do_tune = false;
+      // Define tuning variable
+      bool do_tune = false;
 
-        // Initialize PID
-        pid.Init(Kp, Ki, Kd, do_tune);
+      // Initialize PID
+      pid.Init(Kp, Ki, Kd, do_tune);
 
-        // Test Kp initialization
-        BOOST_CHECK(pid.GetKp() == 2*Kp);
+      // Test Kp initialization
+      BOOST_CHECK_MESSAGE(pid.GetKp() == Kp, "Kp Init Failed");
 
-        // Test Ki initialization
-        BOOST_CHECK(pid.GetKi() == Ki);
+      // Test Ki initialization
+      BOOST_CHECK_MESSAGE(pid.GetKi() == Ki, "Ki Init Failed");
 
-        // Test Kd initialization
-        BOOST_CHECK(pid.GetKd() == Kd);
+      // Test Kd initialization
+      BOOST_CHECK_MESSAGE(pid.GetKd() == Kd, "Kd Init Failed");
 
-        // Test Kd initialization
-        BOOST_CHECK(pid.GetTuneFlag() == do_tune);
+      // Test tuning flag initialization
+      BOOST_CHECK_MESSAGE(pid.GetTuneFlag() == do_tune, "Tuning Flag Init Failed");
+
+      BOOST_TEST_MESSAGE ("Leaving Init Test");
+    }
+
+    BOOST_FIXTURE_TEST_CASE(PIDSetTest, TestFixture) {
+
+      BOOST_TEST_MESSAGE ("Entering Set Test");
+
+      PID pid;
+
+      // Define PID gains
+      double Kp = 0.1;      // Initial value for Kp
+      double Ki = 0.001;    // Initial value for Ki
+      double Kd = 3.0;      // Initial value for Kd
+
+      // Define tuning variable
+      bool do_tune = false;
+
+      // Initialize PID
+      pid.Init(Kp, Ki, Kd, do_tune);
+
+      // Set different PID gains
+      pid.SetGains(2 * Kp, 2 * Ki, 2 * Kd);
+
+      // Test Kp setting
+      BOOST_CHECK_MESSAGE(pid.GetKp() == 2 * Kp, "Kp Setting Failed");
+
+      // Test Ki setting
+      BOOST_CHECK_MESSAGE(pid.GetKi() == 2 * Ki, "Ki Setting Failed");
+
+      // Test Kd setting
+      BOOST_CHECK_MESSAGE(pid.GetKd() == 2 * Kd, "Kd Setting Failed");
+
+      BOOST_TEST_MESSAGE ("Leaving Set Test");
+    }
+
+    BOOST_FIXTURE_TEST_CASE(PIDErrorTest, TestFixture) {
+
+      BOOST_TEST_MESSAGE ("Entering Error Calc Test");
+
+      PID pid;
+
+      // Define PID gains
+      double Kp = 0.1;      // Initial value for Kp
+      double Ki = 0.001;    // Initial value for Ki
+      double Kd = 3;      // Initial value for Kd
+
+      // Define tuning variable
+      bool do_tune = false;
+
+      // Initialize PID
+      pid.Init(Kp, Ki, Kd, do_tune);
+
+      // Define CTE
+      double cte1 = 0.5;
+
+      // Update error
+      pid.UpdateError(cte1);
+
+      // Test update error 1 - first update. All errors = cte
+      BOOST_CHECK_MESSAGE(pid.OutputSteeringAngle() == -(Kp * cte1) - (Ki * cte1) - (Kd * cte1), "Steering Calc 1 "
+                                                                                                 "Failed");
+      // Define new CTE
+      double cte2 = 0.3;
+
+      // Update error
+      pid.UpdateError(cte2);
+
+      // Test update error 2 - first update.
+      BOOST_CHECK_MESSAGE(pid.OutputSteeringAngle() == -(Kp * cte2) - (Ki * (cte1 + cte2)) - (Kd * (cte2 - cte1)),
+                          "Steering Calc 2 Failed");
+
+      BOOST_TEST_MESSAGE ("Leaving Error Calc Test");
     }
 
 BOOST_AUTO_TEST_SUITE_END()
 
-// More test suites
 
