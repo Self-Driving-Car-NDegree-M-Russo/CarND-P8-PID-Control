@@ -1,7 +1,7 @@
 # PID Control (IN PROGRESS)
 [![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 
-Overview
+## Overview
 ---
 
 This Project is submitted as part of the Udacity Self-Driving Car Nanodegree.
@@ -11,7 +11,7 @@ For it the goal is to write C++ code implementing a PID controller for a vehicle
 The source code for this project is submitted as part of this Git repo (in the [src](/src) folder). A detailed explanation is provided in a separate writeup, that documents also the results obtained.  
 
 
-Difference between Branches
+## Difference between Branches
 ---
 
 At the present moment this repo has two different branches: `master` and `log_and_test`. The main difference between the two branch is the implementation, in the second one, of a test suite and a logger functionality, both realised using the [Boost libraries](https://www.boost.org/).
@@ -22,8 +22,13 @@ Nonetheless, I am a firm believer in TDD (Test Driven Development) and I wanted 
 
 The present README is common to the two branches, evene if the rest of the repo changes: in the following I will describe how to build the code in the two cases.
 
-Dependencies
+## `Master` Branch
 ---
+
+The `Master` branch is available here.
+
+### _Dependencies_
+
 First of all, this project involves the Udacity Simulator which can be downloaded [here](https://github.com/udacity/self-driving-car-sim/releases).
 
 Furthermore, this repository includes two files that can be used to set up and install [uWebSocketIO](https://github.com/uWebSockets/uWebSockets) for either Linux or Mac systems. For windows you can use either Docker, VMware, or even [Windows 10 Bash on Ubuntu](https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/) to install uWebSocketIO.
@@ -41,8 +46,7 @@ Other important dependencies are:
   * Mac: same deal as make - [install Xcode command line tools](https://developer.apple.com/xcode/features/)
   * Windows: recommend using [MinGW](http://www.mingw.org/)
 
-Compiling the Code
----
+### _Compiling the Code_
 
 The code is intended to be compiled using CMake and Make. The guideline followed here is to have a `Release` and `Debug` build profile, as suggested in [here](https://stackoverflow.com/questions/7724569/debug-vs-release-in-cmake) and in the references within.
 
