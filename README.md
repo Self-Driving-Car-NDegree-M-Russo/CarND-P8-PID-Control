@@ -2,7 +2,6 @@
 [![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 
 ## Overview
----
 
 This Project is submitted as part of the Udacity Self-Driving Car Nanodegree.
 
@@ -12,7 +11,6 @@ The source code for this project is submitted as part of this Git repo (in the [
 
 
 ## Difference between Branches
----
 
 At the present moment this repo has two different branches: `master` and `log_and_test`. The main difference between the two branch is the implementation, in the second one, of a test suite and a logger functionality, both realised using the [Boost libraries](https://www.boost.org/).
 The `master` branch does not present this dependency, even if, as it will be explained in the following section, still has been designed to provide a debug capability.
