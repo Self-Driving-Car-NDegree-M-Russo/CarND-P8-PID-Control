@@ -100,7 +100,7 @@ The latest version of Boost can be downloaded from [here](https://www.boost.org/
 Summarizing the main instructions _for Unix systems_ we have:
 
 1. Download `boost_X_XX_0.tar.bz2`;
-2. Create a durectory where to put the Boost installation;
+2. Create a directory where to put the Boost installation;
 3. From the directory where you want to put the Boost installation, execute:
 
 ```sh
@@ -110,14 +110,44 @@ Summarizing the main instructions _for Unix systems_ we have:
 4. In the same directory execute:
 
 ```sh
-  ./bootstrap.sh --prefix=path/to/installation/prefix
+  ./bootstrap.sh --prefix=path/to/installation/folder
 ```
 
-5. Change directory to the `path/to/istallation` just defined and run:
+5. Change directory to the `path/to/istallation/folder` just defined and run:
 
 ```sh
   ./b2 install
 ```
 
-This will leave Boost binaries in the lib/ subdirectory of your installation prefix. You will also find a copy of the Boost headers in the include/ subdirectory of the installation prefix, so you can henceforth use that directory as an #include path.
+This will leave Boost binaries in the lib/ subdirectory of your installation folder. You will also find a copy of the Boost headers in the include/ subdirectory of the installation prefix, so you can henceforth use that directory as an #include path.
+
+### _Compiling the code_
+
+After having cloned the repo and taken care of the dependencies as described above, it is necessary to define a `BOOST_ROOT` enviroment variable to point to the `path/to/istallation` folder defined in the previous step on how to install Boost. This will be referenced in the [`CMakeLists.txt`](CMakeLists.txt) file, lines 9-11:
+
+```sh
+  # REMEMBER to set BOOST_ROOT env variable to the root folder where Boost was installed
+  set(BOOST_LIBRARYDIR $(BOOST_ROOT)/lib)
+  set(BOOST_INCLUDEDIRS $(BOOST_ROOT)/include/boost)
+```
+
+Once done that, from the cloned repo you should just need to: 
+
+1. Make a build directory: `mkdir build && cd build`
+2. Compile: `cmake .. && make` 
+
+### _Running  the code_
+
+In order to run the code in [`main.cpp`](/main.cpp), from the `build` folder just type:
+
+```sh
+  ./pid 
+```
+
+This will output the log messages on the console and will also create a `logfile.log` file with the same messages.
+
+In order to run the test suite, from the `build` folder you will have to:
+
+1. Change to the `test` folder that was created when compiling: `cd test`
+2. Run `./pidTest`
 
