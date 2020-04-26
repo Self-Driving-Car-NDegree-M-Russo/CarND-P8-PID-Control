@@ -86,7 +86,7 @@ An example of this can be found in [main.cpp](src/main.cpp) on lines (69-73):
 ---
 ## `log_and_test` Branch
 
-The `master` branch is available [here](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/tree/log_and_test).
+The `log_and_test` branch is available [here](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/tree/log_and_test).
 
 ### _Dependencies_
 
