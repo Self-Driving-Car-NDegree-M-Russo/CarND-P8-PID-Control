@@ -83,6 +83,16 @@ An example of this can be found in [main.cpp](src/main.cpp) on lines (69-73):
   #endif
 ```          
 
+### _Running  the code_
+
+In order to run the code in [`main.cpp`](/main.cpp), starting from the `debug` or `release` folder just type:
+
+```sh
+  ./pid 
+```
+
+Depending in which folder you are you will/will not see debug messages on the console.
+
 ---
 ## `log_and_test` Branch
 
@@ -138,13 +148,21 @@ Once done that, from the cloned repo you should just need to:
 
 ### _Running  the code_
 
-In order to run the code in [`main.cpp`](/main.cpp), from the `build` folder just type:
+In order to run the code in [`main.cpp`](/src/main.cpp), from the `build` folder just type:
 
 ```sh
   ./pid 
 ```
 
-This will output the log messages on the console and will also create a `logfile.log` file with the same messages.
+This will output the log messages on the console and will also create a file with the same messages in the [logs](/logs) folder. 
+
+### _Logger operation/setup_
+
+The logger is configured through an external file called [`settings.txt`](/logs/settings.txt), in the [logs](/logs) folder. This implementatio follows what documented [here](https://www.boost.org/doc/libs/1_72_0/libs/log/doc/html/log/detailed/utilities.html#log.detailed.utilities.setup.settings_file) and allows for changes in the logging structure (for example changes in the sinks, filtering or even enabling/disabling) without recompiling the code. At the moment both the console and the file sink are activated but they are configured with different severity levels, so to avoid flooding the terminal with messages.
+
+Please note that there are several more interesting features in the boost logger that have not been implemented in this example for sake of simplicity but would be possible improvement (for example settingh limits to the number and size of the log files to save).
+
+### _Running the tests_
 
 In order to run the test suite, from the `build` folder you will have to:
 
