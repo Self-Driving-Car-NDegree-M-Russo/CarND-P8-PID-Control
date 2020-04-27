@@ -160,7 +160,7 @@ This will output the log messages on the console and will also create a file wit
 
 The logger is configured through an external file called [`settings.txt`](/logs/settings.txt), in the [logs](/logs) folder. This implementatio follows what documented [here](https://www.boost.org/doc/libs/1_72_0/libs/log/doc/html/log/detailed/utilities.html#log.detailed.utilities.setup.settings_file) and allows for changes in the logging structure (for example changes in the sinks, filtering or even enabling/disabling) without recompiling the code. At the moment both the console and the file sink are activated but they are configured with different severity levels, so to avoid flooding the terminal with messages.
 
-Please note that there are several more interesting features in the boost logger that have not been implemented in this example for sake of simplicity but would be possible improvement (for example settingh limits to the number and size of the log files to save).
+Please note that there are several  interesting features in the boost logger that have not been implemented in this example for sake of simplicity but would be possible improvements (for example settingh limits to the number and size of the log files to save).
 
 ### _Running the tests_
 
