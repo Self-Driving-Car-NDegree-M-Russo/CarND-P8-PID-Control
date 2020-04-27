@@ -66,6 +66,57 @@ void PID::Init(double Kp_, double Ki_, double Kd_, bool do_tune_) {
   }
 }
 
+void PID::Init(double Kp_, double Ki_, double Kd_, bool do_tune_, int init_it_, int max_it_ ) {
+  /**
+    * Initialize PID - case with tuning parameters.
+    * @param (Kp_, Ki_, Kd_, do_tune_, init_it_, max_init_ ) The initial PID gains, tuning flag, iterations before
+    * tuning, max iterations allowed for tuning.
+    */
+
+  // Initialize gains
+  Kp = Kp_;
+  Ki = Ki_;
+  Kd = Kd_;
+
+  // Initialize errors
+  p_error = 0.0;
+  i_error = 0.0;
+  d_error = 0.0;
+
+  // Initialize tuning parameters
+  do_tuning = do_tune_;
+
+  BOOST_LOG_TRIVIAL(debug) << "Initial values for PID gains - Kp = " << Kp << "; Ki = " << Ki << "; Kd = " << Kd;
+  BOOST_LOG_TRIVIAL(debug) << "Tuning flag = " << do_tuning;
+
+  if (do_tuning){
+
+    // Initialize counters
+    it_count = 0;             // Iteration counter
+    init_it = init_it_;       // Number of steps before running the algorithm
+    max_it = max_it_;         // Max number steps for running the algorithm
+
+    // Initialize vectors
+    p[0] = Kp;
+    p[1] = Ki;
+    p[2] = Kd;
+
+    dp[0] = Kp*0.1;           // Delta vector initialized to 10% of gains
+    dp[1] = Ki*0.1;
+    dp[2] = Kd*0.1;
+
+    p_it = 0;                 // Iterator over p, dp vectors
+
+    p_plus = true;
+    p_minus = true;
+    move_p_it = false;
+
+    // Initialize error and tolerance
+    best_err = std::numeric_limits<double>::max();  //Initialize to high value
+    threshold = 0.01;
+  }
+}
+
 void PID::SetGains(double Kp_, double Ki_, double Kd_) {
   /**
    * Set PID gains

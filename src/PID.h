@@ -19,6 +19,13 @@ class PID {
    */
   void Init(double Kp_, double Ki_, double Kd_, bool do_tune_);
 
+   /**
+    * Initialize PID - case with tuning parameters.
+    * @param (Kp_, Ki_, Kd_, do_tune_, init_it_, max_init_ ) The initial PID gains, tuning flag, iterations before
+    * tuning, max iterations allowed for tuning.
+    */
+  void Init(double Kp_, double Ki_, double Kd_, bool do_tune_, int init_it_, int max_it_);
+
   /**
    * Set PID gains
    * @param (Kp_, Ki_, Kd_) The PID gains

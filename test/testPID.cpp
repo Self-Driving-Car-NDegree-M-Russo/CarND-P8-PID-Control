@@ -143,11 +143,36 @@ BOOST_AUTO_TEST_SUITE(PIDTestSuite)
       // Update error
       pid.UpdateError(cte2);
 
-      // Test update error 2 - first update.
+      // Test update error 2 - generic update.
       BOOST_CHECK_MESSAGE(pid.OutputSteeringAngle() == -(Kp * cte2) - (Ki * (cte1 + cte2)) - (Kd * (cte2 - cte1)),
                           "Steering Calc 2 Failed");
 
       BOOST_TEST_MESSAGE ("Leaving Error Calc Test");
+    }
+
+    BOOST_FIXTURE_TEST_CASE(PIDTuningTest, TestFixture) {
+
+      BOOST_TEST_MESSAGE ("Entering Tuning Test");
+
+      PID pid;
+
+      // Define PID gains
+      double Kp = 0.1;      // Initial value for Kp
+      double Ki = 0.001;    // Initial value for Ki
+      double Kd = 3;        // Initial value for Kd
+
+      // Define tuning variable
+      bool do_tune = false;
+
+      // Define tuning parameters
+      int init_it = 0;
+      int max_it = 1000;
+
+      // Initialize PID
+      pid.Init(Kp, Ki, Kd, do_tune, init_it, max_it);
+
+     
+      BOOST_TEST_MESSAGE ("Leaving Tuning Test");
     }
 
 BOOST_AUTO_TEST_SUITE_END()
