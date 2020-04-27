@@ -94,7 +94,7 @@ Depending in which folder you are you will/will not see debug messages on the co
 ---
 ## `log_and_test` Branch
 
-The `log_and_test` branch is available [here](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/tree/log_and_test).
+The `log_and_test` branch is available [here](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/tree/log_and_test) - the writeup describing the project is [here](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/blob/log_and_test/PID_writeup.md).
 
 ### _Dependencies_
 
