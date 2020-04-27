@@ -22,7 +22,7 @@ The present README is common to the two branches, evene if the rest of the repo 
 ---
 ## `master` Branch
 
-The `master` branch is available [here](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/tree/master).
+The `master` branch is available [here](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/tree/master) - the writeup describing the project is [here](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/blob/master/PID_writeup.md).
 
 ### _Dependencies_
 
@@ -94,7 +94,7 @@ Depending in which folder you are you will/will not see debug messages on the co
 ---
 ## `log_and_test` Branch
 
-The `log_and_test` branch is available [here](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/tree/log_and_test).
+The `log_and_test` branch is available [here](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/tree/log_and_test) - the writeup describing the project is [here](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/blob/log_and_test/PID_writeup.md).
 
 ### _Dependencies_
 
