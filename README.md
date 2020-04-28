@@ -182,7 +182,6 @@ $ : ./pidTest
 Running 4 test cases...
 
 *** No errors detected
-$ :
 ```
 On the other hand, a failure in the test will be caught and shown with a specific error message, for example:
 
@@ -195,7 +194,28 @@ $/testPID.cpp:148: error: in "PIDTestSuite/PIDErrorTest": Steering Calc 2 Failed
 *** 2 failures are detected in the test module "PIDTestModule"
 ```
 
+More messages can be displayed by typing:
 
+```sh
+$ : ./pidTest --log_level=message
+Running 4 test cases...
+Setup Test Fixture
+Entering Init Test
+Leaving Init Test
+Teardown Test Fixture
+Setup Test Fixture
+Entering Set Test
+Leaving Set Test
+Teardown Test Fixture
+Setup Test Fixture
+Entering Error Calc Test
+Leaving Error Calc Test
+Teardown Test Fixture
+Setup Test Fixture
+Entering Tuning Test
+Leaving Tuning Test
+Teardown Test Fixture
+Test case PIDTestSuite/PIDTuningTest did not check any assertions
 
-
-
+*** No errors detected
+```
