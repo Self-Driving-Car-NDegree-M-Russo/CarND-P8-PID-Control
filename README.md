@@ -215,7 +215,6 @@ Setup Test Fixture
 Entering Tuning Test
 Leaving Tuning Test
 Teardown Test Fixture
-Test case PIDTestSuite/PIDTuningTest did not check any assertions
 
 *** No errors detected
 ```
