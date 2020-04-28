@@ -160,7 +160,7 @@ The logger is configured through an external file called [`settings.txt`](https:
 
 The log files are saved also in the [logs](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/tree/log_and_test/logs)  folder. The name of the file is built considering the date and time of the run, so to avoid overwritings.
 
-Please note that there are several  interesting features in the boost logger that have not been implemented in this example for sake of simplicity but would be possible improvements for subsequent releases (for example setting limits to the number and size of the log files to save).
+Please note that there are several interesting features in the Boost logger that have not been implemented in this example for sake of simplicity but would be possible improvements for subsequent releases (for example setting limits to the number and size of the log files to save).
 
 ### _Test framework_
 
@@ -175,7 +175,7 @@ In order to run the test suite, from the `build` folder you just will have to:
 1. Change to the `test` folder that was created when compiling: `cd test`
 2. Run `./pidTest`
 
-A succesful run (no error detected in your code) would provide an output like this:
+A succesful run (no error detected in the code) would provide an output like this:
 
 ```sh
   ./pidTest
