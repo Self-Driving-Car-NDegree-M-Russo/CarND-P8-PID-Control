@@ -178,7 +178,7 @@ In order to run the test suite, from the `build` folder you just will have to:
 A succesful run (no error detected in your code) would provide an output like this:
 
 ```sh
-$ : ./pidTest
+./pidTest
 Running 4 test cases...
 
 *** No errors detected
@@ -186,7 +186,7 @@ Running 4 test cases...
 On the other hand, a failure in the test will be caught and shown with a specific error message, for example:
 
 ```sh
-$ : ./pidTest
+./pidTest
 Running 4 test cases...
 $/testPID.cpp:71: error: in "PIDTestSuite/PIDInitTest": Ki Init Failed
 $/testPID.cpp:148: error: in "PIDTestSuite/PIDErrorTest": Steering Calc 2 Failed
@@ -197,7 +197,7 @@ $/testPID.cpp:148: error: in "PIDTestSuite/PIDErrorTest": Steering Calc 2 Failed
 More messages can be displayed by typing:
 
 ```sh
-$ : ./pidTest --log_level=message
+./pidTest --log_level=message
 Running 4 test cases...
 Setup Test Fixture
 Entering Init Test
