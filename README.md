@@ -164,7 +164,7 @@ Please note that there are several  interesting features in the boost logger tha
 
 ### _Test framework_
 
-The Boost test framework is amongs those introduced and explained in the [CLion documentation](https://www.jetbrains.com/help/clion/unit-testing-tutorial.html#boost-test-framework) (CLion being my IDE of choice). The test suite of course can be used without having to rely on a specific IDE.
+The Boost test framework is amongst those introduced and explained in the [CLion documentation](https://www.jetbrains.com/help/clion/unit-testing-tutorial.html#boost-test-framework) (CLion being my IDE of choice). The test suite of course can be used without having to rely on a specific IDE.
 
 There are several other test frameworks available (most notably [Google test](https://github.com/google/googletest)) and this example does not aim at providing a comparison between all of them. Boost was selected for this project given the possibility to implement a Logger as described above, and because I believe it presents interesting possibilities for scientific computing given the broad scope of the libraries, but this should be considered just a personal opinion and choice. What is important is to recognize the value of a unit test framework, as a tool to increase quality and mainteinability of a piece of SW.
 
