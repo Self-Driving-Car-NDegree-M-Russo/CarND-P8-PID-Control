@@ -166,11 +166,11 @@ Please note that there are several interesting features in the Boost logger that
 
 The Boost test framework is amongst those introduced and explained in the [CLion documentation](https://www.jetbrains.com/help/clion/unit-testing-tutorial.html#boost-test-framework) (CLion being my IDE of choice). The test suite of course can be used without having to rely on a specific IDE.
 
-There are several other test frameworks available (most notably [Google test](https://github.com/google/googletest)) and this example does not aim at providing a comparison between all of them. Boost was selected for this project given the possibility to implement a Logger as described above, and because I believe it presents interesting possibilities for scientific computing given the broad scope of the libraries, but this should be considered just a personal opinion and choice. What is important is to recognize the value of a unit test framework, as a tool to increase quality and mainteinability of a piece of SW.
+There are several other test frameworks available (most notably [Google test](https://github.com/google/googletest)) and this example does not aim at providing a comparison between all of them. Boost was selected for this project given the possibility to implement a Logger as described above, and because I believe it presents interesting capabilities for scientific computing given the broad scope of the libraries, but this should be considered just a personal opinion and choice. What is important is to recognize the value of a unit test framework, as a tool to increase quality and mainteinability of a piece of SW.
 
 The code for the test suite can be found in the [`testPID.cpp`](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/blob/log_and_test/test/testPID.cpp) file, located in the [test](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/blob/log_and_test/test/) folder. The folder also contains a [`CMakeLists.txt`](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/blob/log_and_test/test/CMakeLists.txt) file, to allow the building of an indipendent target in a separate folder.
 
-In order to run the test suite, from the `build` folder you just will have to:
+In order to run the test suite, from the `build` folder you will just have to:
 
 1. Change to the `test` folder that was created when compiling: `cd test`
 2. Run `./pidTest`
