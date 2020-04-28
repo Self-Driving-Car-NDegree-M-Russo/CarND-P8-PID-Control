@@ -218,3 +218,7 @@ More messages can be displayed by typing:
 
   *** No errors detected
 ```
+
+Please note that in the `logs` folder there is a specific settings file to be used by the test suite ([`settings_for_text.txt`](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/blob/log_and_test/logs/settings_for_text.txt)). In it the logger is just disabled for the testing.
+
+
