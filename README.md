@@ -158,14 +158,67 @@ This will output the log messages on the console and will also create a file wit
 
 The logger is configured through an external file called [`settings.txt`](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/blob/log_and_test/logs/settings.txt), in the [logs](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/tree/log_and_test/logs) folder. This implementatio follows what documented [here](https://www.boost.org/doc/libs/1_72_0/libs/log/doc/html/log/detailed/utilities.html#log.detailed.utilities.setup.settings_file) and allows for changes in the logging structure (for example changes in the sinks, filtering or even enabling/disabling) without recompiling the code. At the moment both the console and the file sink are activated but they are configured with different severity levels, so to avoid flooding the terminal with messages. Anothere reference on how to build a logger using Boost (but without using the settings file) can be found [here](https://gernotklingler.com/blog/simple-customized-logger-based-boost-log-v2/). 
 
-The log files are saved also in the [logs](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/tree/log_and_test/logs)  folder. The name of the file is built considerinhg the date and time of the run, so to avoid overwritings.
+The log files are saved also in the [logs](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/tree/log_and_test/logs)  folder. The name of the file is built considering the date and time of the run, so to avoid overwritings.
 
-Please note that there are several  interesting features in the boost logger that have not been implemented in this example for sake of simplicity but would be possible improvements for subsequent releases (for example setting limits to the number and size of the log files to save).
+Please note that there are several interesting features in the Boost logger that have not been implemented in this example for sake of simplicity but would be possible improvements for subsequent releases (for example setting limits to the number and size of the log files to save).
 
-### _Running the tests_
+### _Test framework_
 
-In order to run the test suite, from the `build` folder you will have to:
+The Boost test framework is amongst those introduced and explained in the [CLion documentation](https://www.jetbrains.com/help/clion/unit-testing-tutorial.html#boost-test-framework) (CLion being my IDE of choice). The test suite of course can be used without having to rely on a specific IDE.
+
+There are several other test frameworks available (most notably [Google test](https://github.com/google/googletest)) and this example does not aim at providing a comparison between all of them. Boost was selected for this project given the possibility to implement a Logger as described above, and because I believe it presents interesting capabilities for scientific computing given the broad scope of the libraries, but this should be considered just a personal opinion and choice. What is important is to recognize the value of a unit test framework, as a tool to increase quality and mainteinability of a piece of SW.
+
+The code for the test suite can be found in the [`testPID.cpp`](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/blob/log_and_test/test/testPID.cpp) file, located in the [test](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/blob/log_and_test/test/) folder. The folder also contains a [`CMakeLists.txt`](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/blob/log_and_test/test/CMakeLists.txt) file, to allow the building of an indipendent target in a separate folder.
+
+In order to run the test suite, from the `build` folder you will just have to:
 
 1. Change to the `test` folder that was created when compiling: `cd test`
 2. Run `./pidTest`
 
+A succesful run (no error detected in the code) would provide an output like this:
+
+```sh
+  ./pidTest
+  Running 4 test cases...
+
+  *** No errors detected
+```
+On the other hand, a failure in the test will be caught and shown with a specific error message, for example:
+
+```sh
+  ./pidTest
+  Running 4 test cases...
+  testPID.cpp:71: error: in "PIDTestSuite/PIDInitTest": Ki Init Failed
+  testPID.cpp:148: error: in "PIDTestSuite/PIDErrorTest": Steering Calc 2 Failed
+
+  *** 2 failures are detected in the test module "PIDTestModule"
+```
+
+More messages can be displayed by typing:
+
+```sh
+  ./pidTest --log_level=message
+  Running 4 test cases...
+  Setup Test Fixture
+  Entering Init Test
+  Leaving Init Test
+  Teardown Test Fixture
+  Setup Test Fixture
+  Entering Set Test
+  Leaving Set Test
+  Teardown Test Fixture
+  Setup Test Fixture
+  Entering Error Calc Test
+  Leaving Error Calc Test
+  Teardown Test Fixture
+  Setup Test Fixture
+  Entering Tuning Test
+  Tuning Test Step 1
+  Tuning Test Step 2
+  Leaving Tuning Test
+  Teardown Test Fixture
+
+  *** No errors detected
+```
+
+Please note that in the `logs` folder there is a specific settings file to be used by the test suite ([`settings_for_text.txt`](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/blob/log_and_test/logs/settings_for_test.txt)). In it the logger is just disabled for the testing.
