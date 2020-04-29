@@ -213,6 +213,8 @@ More messages can be displayed by typing:
   Teardown Test Fixture
   Setup Test Fixture
   Entering Tuning Test
+  Tuning Test Step 1
+  Tuning Test Step 2
   Leaving Tuning Test
   Teardown Test Fixture
 
