@@ -215,7 +215,6 @@ void PID::TuneGains() {
     double dp_avg = (fabs(dp[0]/p[0]) + fabs(dp[1]/p[1]) + fabs(dp[2]/p[2])) / 3.0;
 
     if (dp_avg > threshold) {
-      std::cout<< "TUNING" <<std::endl;
       // Evaluate average dp against threshold
       BOOST_LOG_TRIVIAL(debug) << "Average dp/p = " << dp_avg << " against threshold : " << threshold;
       BOOST_LOG_TRIVIAL(debug) << "TUNING..";
@@ -223,8 +222,6 @@ void PID::TuneGains() {
 
       if (p_plus) {
         BOOST_LOG_TRIVIAL(debug) << "Cycle start - Increment p[p_it] by dp[p_it] ";
-
-        std::cout << "start" << std::endl;
 
         p[p_it] += dp[p_it];
 
@@ -234,7 +231,6 @@ void PID::TuneGains() {
         p_plus = false;
       } else {
         if (s_error < best_err) {
-          std::cout<<"case 1"<<std::endl;
           BOOST_LOG_TRIVIAL(debug) << "Case number one: best error found, no operations executed. Increment dp[p_it]";
           BOOST_LOG_TRIVIAL(debug) << "Changing best error from : " << best_err << " to : " << s_error;
 
@@ -244,7 +240,6 @@ void PID::TuneGains() {
           move_p_it = true;
         } else {
           if (p_minus) {
-            std::cout<<"case 2"<<std::endl;
             BOOST_LOG_TRIVIAL(debug) << "Case number two: increment p executed but NO best error found. Decrement p[it]"
                                         " byy 2*dp[p_it]";
 
@@ -255,7 +250,6 @@ void PID::TuneGains() {
 
             p_minus = false;
           } else {
-            std::cout<<"case 3"<<std::endl;
             BOOST_LOG_TRIVIAL(debug) << "Case number three: increment and decrement executed, but NO best error found."
                                         " Reset and reduce increment";
 
@@ -273,7 +267,6 @@ void PID::TuneGains() {
 
       // Loop to the next element in p, dp
       if (move_p_it) {
-        std::cout<<"move p_it"<<std::endl;
         // Increment p_it, looping over [0,1,2]
         p_it = (p_it + 1) % 3;
 

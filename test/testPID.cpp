@@ -174,10 +174,12 @@ BOOST_AUTO_TEST_SUITE(PIDTestSuite)
       // Define CTE
       double cte = 0.5;
 
+      // TESTING STEP 1
+      BOOST_TEST_MESSAGE ("Tuning Test Step 1");
+
+      // Test Kp cycle
       // Call update error - this will also increment the iteration counter
       pid.UpdateError(cte);
-
-      BOOST_TEST_MESSAGE ("Tuning Test Step 1");
 
       // Step 1.1 - First call on first p[] index. This will increase Kp by ten 10%
       pid.TuneGains();
@@ -194,6 +196,7 @@ BOOST_AUTO_TEST_SUITE(PIDTestSuite)
       // Test Tuning step 1.2 - Kp stays at 1.1 initial value
       BOOST_CHECK_MESSAGE(fabs(pid.GetKp() - 1.1*Kp) < 1e-12, "Tuning step 1.2 (Kp increment confirmed) failed");
 
+      // Test Ki cycle
       // Call update error / increment iteration counter
       pid.UpdateError(cte);
 
@@ -204,7 +207,7 @@ BOOST_AUTO_TEST_SUITE(PIDTestSuite)
       BOOST_CHECK_MESSAGE(fabs(pid.GetKi() - 1.1*Ki) < 1e-12, "Tuning step 1.3 (Ki first increment) failed");
 
       // Decrease cte to force Tuning case 1
-      cte = 0.49;
+      cte -= 0.01;
 
       // Call update error / increment iteration counter
       pid.UpdateError(cte);
@@ -215,6 +218,7 @@ BOOST_AUTO_TEST_SUITE(PIDTestSuite)
       // Test Tuning step 1.4 - Ki stays at 1.1 initial value
       BOOST_CHECK_MESSAGE(fabs(pid.GetKi() - 1.1*Ki) < 1e-12, "Tuning step 1.4 (Ki increment confirmed) failed");
 
+      // Test Kd cycle
       // Call update error / increment iteration counter
       pid.UpdateError(cte);
 
@@ -225,7 +229,7 @@ BOOST_AUTO_TEST_SUITE(PIDTestSuite)
       BOOST_CHECK_MESSAGE(fabs(pid.GetKd() - 1.1*Kd) < 1e-12, "Tuning step 1.5 (Kd first increment) failed");
 
       // Decrease cte to force Tuning case 1
-      cte = 0.48;
+      cte -= 0.01;
 
       // Call update error / increment iteration counter
       pid.UpdateError(cte);
@@ -236,25 +240,27 @@ BOOST_AUTO_TEST_SUITE(PIDTestSuite)
       // Test Tuning step 1.6 - Kd stays at 1.1 initial value
       BOOST_CHECK_MESSAGE(fabs(pid.GetKd() - 1.1*Kd) < 1e-12, "Tuning step 1.6 (Kd increment confirmed) failed");
 
-      BOOST_TEST_MESSAGE ("Tuning Test Step 2");
-
       // Reset gains and errors
       Kp = pid.GetKp();
       Ki = pid.GetKi();
       Kd = pid.GetKd();
       cte = 0.5;
 
+      // TESTING STEP 2
+      BOOST_TEST_MESSAGE ("Tuning Test Step 2");
+
+      // Test Kp cycle
       // Call update error / increment iteration counter
       pid.UpdateError(cte);
 
-      // Step 2.1- This will be tuning case 2: error increased and Kp should be = 0.9 of the initial value
+      // Step 2.1 - This will be the initial increment for Kp
       pid.TuneGains();
 
-      // Test Tuning step 2.1 - Kp is decremented to 0.9 initial value
+      // Test Tuning step 2.1 - Kp increment
       BOOST_CHECK_MESSAGE(fabs(pid.GetKp() - 1.1*Kp) < 1e-12, "Tuning step 2.1 (Kp first increment) failed");
 
-      // Increase cte to force Tuning case 1
-      cte = 0.51;
+      // Increase cte to force Tuning case 2
+      cte += 0.01;
 
       // Call update error / increment iteration counter
       pid.UpdateError(cte);
@@ -262,9 +268,88 @@ BOOST_AUTO_TEST_SUITE(PIDTestSuite)
       // Step 2.2 - This will be tuning case 2, and Kp best error will change. Kp should go = 0.9 of the initial value
       pid.TuneGains();
 
-      // Test Tuning step 2.1 - Kp is decremented to 0.9 initial value
+      // Test Tuning step 2.2 - Kp is decremented to 0.9 initial value
       BOOST_CHECK_MESSAGE(fabs(pid.GetKp() - 0.9*Kp) < 1e-12, "Tuning step 2.1 (Kp first decrement) failed");
 
+      // Increase cte to force Tuning case 3
+      cte += 0.01;
+
+      // Call update error / increment iteration counter
+      pid.UpdateError(cte);
+
+      // Step 2.3 - This will be tuning case 3, and Kp best error will change. Kp should go back the initial value
+      pid.TuneGains();
+
+      // Test Tuning step 2.3 - Kp is brought back to initial value
+      BOOST_CHECK_MESSAGE(fabs(pid.GetKp() - Kp) < 1e-12, "Tuning step 2.3 (Kp reset) failed");
+
+      // Test Ki cycle
+      // Call update error / increment iteration counter
+      pid.UpdateError(cte);
+
+      // Step 2.4 - This will be the initial increment for Ki
+      pid.TuneGains();
+
+      // Test Tuning step 2.4 - Ki increment
+      BOOST_CHECK_MESSAGE(fabs(pid.GetKi() - 1.1*Ki) < 1e-12, "Tuning step 2.4 (Ki first increment) failed");
+
+      // Increase cte to force Tuning case 2
+      cte += 0.01;
+
+      // Call update error / increment iteration counter
+      pid.UpdateError(cte);
+
+      // Step 2.5 - This will be tuning case 2, and Ki best error will change. Ki should go = 0.9 of the initial value
+      pid.TuneGains();
+
+      // Test Tuning step 2.5 - Ki is decremented to 0.9 initial value
+      BOOST_CHECK_MESSAGE(fabs(pid.GetKi() - 0.9*Ki) < 1e-12, "Tuning step 2.5 (Ki first decrement) failed");
+
+      // Increase cte to force Tuning case 3
+      cte += 0.01;
+
+      // Call update error / increment iteration counter
+      pid.UpdateError(cte);
+
+      // Step 2.6 - This will be tuning case 3, and Kp best error will change. Ki should go back the initial value
+      pid.TuneGains();
+
+      // Test Tuning step 2.6 - Ki is brought back to initial value
+      BOOST_CHECK_MESSAGE(fabs(pid.GetKi() - Ki) < 1e-12, "Tuning step 2.6 (Ki reset) failed");
+
+      // Test Kd cycle
+      // Call update error / increment iteration counter
+      pid.UpdateError(cte);
+
+      // Step 2.7 - This will be the initial increment for Kd
+      pid.TuneGains();
+
+      // Test Tuning step 2.7 - Kd increment
+      BOOST_CHECK_MESSAGE(fabs(pid.GetKd() - 1.1*Kd) < 1e-12, "Tuning step 2.7 (Kd first increment) failed");
+
+      // Increase cte to force Tuning case 2
+      cte += 0.01;
+
+      // Call update error / increment iteration counter
+      pid.UpdateError(cte);
+
+      // Step 2.8 - This will be tuning case 2, and Kd best error will change. Kd should go = 0.9 of the initial value
+      pid.TuneGains();
+
+      // Test Tuning step 2.8 - Kd is decremented to 0.9 initial value
+      BOOST_CHECK_MESSAGE(fabs(pid.GetKd() - 0.9*Kd) < 1e-12, "Tuning step 2.8 (Kd first decrement) failed");
+
+      // Increase cte to force Tuning case 3
+      cte += 0.01;
+
+      // Call update error / increment iteration counter
+      pid.UpdateError(cte);
+
+      // Step 2.9 - This will be tuning case 3, and Kd best error will change. Kd should go back the initial value
+      pid.TuneGains();
+
+      // Test Tuning step 2.9 - Kd is brought back to initial value
+      BOOST_CHECK_MESSAGE(fabs(pid.GetKd() - Kd) < 1e-12, "Tuning step 2.9 (Kd reset) failed");
 
       BOOST_TEST_MESSAGE ("Leaving Tuning Test");
     }
