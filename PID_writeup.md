@@ -45,6 +45,23 @@ All the previous actions are implemented in [`PID.cpp`](./src/PID.cpp), separate
 
 ### _Initialization_
 
+The controller is initialized through the `Init` method, in [`PID.cpp`](./src/PID.cpp), starting at line 19. In it the values of the three gains are set, as well as the respective errors and the requirement for tuining (see lines 25-36):
+
+```sh
+  // Initialize gains
+  Kp = Kp_;
+  Ki = Ki_;
+  Kd = Kd_;
+
+  // Initialize errors
+  p_error = 0.0;
+  i_error = 0.0;
+  d_error = 0.0;
+
+  // Initialize tuning parameters
+  do_tuning = do_tune_;
+```
+
 ### _Errors' Update_
 
 The `UpdateError` method
