@@ -35,8 +35,8 @@ As the name says, a PID controller is composed by 3 main parts:
 
 _Control_ | _Definition_
 ---- | ----
-**P** Control | Proportional controller: provides an output (steering action) directly proportional to the cross-track error
-**D** Control | Derivative controller: provides an output directly proportional to the _time derivative_ of the cross-track error. This helps preventing overshoots that would rise with the Proporional action only
+**P** Control | Proportional controller: provides an output (steering action) directly proportional to the cross-track error.
+**D** Control | Derivative controller: provides an output directly proportional to the _time derivative_ of the cross-track error. This helps preventing overshoots that would rise with the Proporional action only.
 **I** Control | Integral controller: provides an output directly proportional to the _integral (on time)_ of the cross-track error. This eliminates the effects of biases that would affect a pure PD controller, and allows a steady state error = 0.
 
 The proportionality coefficients for each of the actions are often referred to as the controller's _Gains_.
@@ -52,7 +52,7 @@ The controller is initialized through the `Init` method, in [`PID.cpp`](./src/PI
   pid.Init(Kp, Ki, Kd, do_tune);
 ```
 
-Note that the three gains are provided as input variables and then, eventually, tuned, while the funing flags is asked as a user's input though the code in lines 78-89:
+Note that the three gains are provided as input variables in the code and then, eventually, tuned, while the funing flags is asked as a user's input through the code in lines 78-89:
 
 ```sh
   //Set tuning flag
