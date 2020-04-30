@@ -11,6 +11,35 @@ The following sections of this writeup will provide details on the controller op
 ---
 ## Data Input
 
+The data source for this Filter will be the Udacity [simulator](https://github.com/udacity/self-driving-car-sim/releases). The compiled code will open a websocket session to the sim to read information about the state vehicles and provide back a steering command to it.
+
+### Message Parsing
+
+The parsing of the websocket message happens in `main.cpp`. The retrieval of information is clear in lines 110-113:
+
+```sh
+  double cte = std::stod(j[1]["cte"].get<string>());
+  double speed = std::stod(j[1]["speed"].get<string>());
+  double angle = std::stod(j[1]["steering_angle"].get<string>());
+```
+ we can see that the message from the simulator includes the cross-track error of the vehicle (i.e. the error with respect to the reference trajectory), its current speed and steering angle. cte will be used by the subesequent control portion, and is also sent to the logger together with the steering angle, for debugging purposes (see lines 119-120):
+ 
+ ```sh
+  // DEBUG
+  BOOST_LOG_TRIVIAL(debug) << "CTE: " << cte << " Steering Value: " << steer_value;
+ ```
+---
+## Implementation of the Controller
+
+As the name says, a PID controller is composed by 3 main parts:
+
+_Control_ | _Definition_
+---- | ----
+**P** Control | Proportional controller: provides an output (steering action) directly proportional to the cross-track error
+**D** Control | Derivative controller: provides an output directly proportional to the _time derivative_ of the cross-track error. This helps preventing overshoots that would rise with the Proporional action only
+**I** Control | Integral controller: provides an output directly proportional to the _integral (on time)_ of the cross-track error. This eliminates the effects of biases that would affect a pure PD controller, and allows a steady state error = 0.
+
+
 ---
 ## PID_results
 
