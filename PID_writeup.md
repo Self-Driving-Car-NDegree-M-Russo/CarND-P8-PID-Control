@@ -71,12 +71,12 @@ Note that the three gains are provided as input variables in the code and then, 
 
 ### _Errors' Update_
 
-The `UpdateError` method is called by [`main.cpp`](./src/main.cpp) at every message received from the simulator (se eon line 116):
+The `UpdateError` method is called by [`main.cpp`](./src/main.cpp) at every message received from the simulator (see on line 116):
 
 ```sh
   pid.UpdateError(cte);
 ```
-Takes in input the cross-track error as provided by the simulator and calculates (and assign) the error. terms for proportional/integral/derivative actions ([`PID.cpp`](./src/PID.cpp), lines 179-183):
+It takes in input the cross-track error as provided by the simulator and calculates (and assigns) the error terms for proportional/integral/derivative actions ([`PID.cpp`](./src/PID.cpp), lines 179-183):
 
 ```sh
   // NOTE: Previous cte is stored in previous p_error, and so the calculation of i_error must happen before the
