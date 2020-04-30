@@ -35,10 +35,83 @@ As the name says, a PID controller is composed by 3 main parts:
 
 _Control_ | _Definition_
 ---- | ----
-**P** Control | Proportional controller: provides an output (steering action) directly proportional to the cross-track error
-**D** Control | Derivative controller: provides an output directly proportional to the _time derivative_ of the cross-track error. This helps preventing overshoots that would rise with the Proporional action only
+**P** Control | Proportional controller: provides an output (steering action) directly proportional to the cross-track error.
+**D** Control | Derivative controller: provides an output directly proportional to the _time derivative_ of the cross-track error. This helps preventing overshoots that would rise with the Proporional action only.
 **I** Control | Integral controller: provides an output directly proportional to the _integral (on time)_ of the cross-track error. This eliminates the effects of biases that would affect a pure PD controller, and allows a steady state error = 0.
 
+The proportionality coefficients for each of the actions are often referred to as the controller's _Gains_.
+
+All the previous actions are implemented in [`PID.cpp`](./src/PID.cpp), separated in two methods: `UpdateError` (lines 173-191) and `OutputSteeringAngle` (lines 193-202).
+
+### _Initialization_
+
+The controller is initialized through the `Init` method, in [`PID.cpp`](./src/PID.cpp), starting at line 19. In it the values of the three gains are set, as well as the respective errors and the requirement for tuining. The method is called from [`main.cpp`](./src/main.cpp), on line 93:
+
+```sh
+  // Initialize PID
+  pid.Init(Kp, Ki, Kd, do_tune);
+```
+
+Note that the three gains are provided as input variables in the code and then, eventually, tuned, while the funing flags is asked as a user's input through the code in lines 78-89:
+
+```sh
+  //Set tuning flag
+  bool do_tune = false;
+  string do_tune_in;
+  std::cout <<"Do you want to enable tuning with Coordinated Ascent (Twiddle) method [y/(n)]? ";
+  getline(std::cin, do_tune_in);
+  if ((do_tune_in.compare("Y") == 0) || (do_tune_in.compare("y") == 0)){
+    std::cout << "Tuning enabled" <<std::endl;
+    do_tune = true;
+  }
+  else {
+    std::cout << "Tuning NOT enabled" <<std::endl;
+  }
+```
+
+By default tuning is not enabled.
+
+### _Errors' Update_
+
+The `UpdateError` method is called by [`main.cpp`](./src/main.cpp) at every message received from the simulator (see on line 116):
+
+```sh
+  pid.UpdateError(cte);
+```
+It takes in input the cross-track error as provided by the simulator and calculates (and assigns) the error terms for proportional/integral/derivative actions ([`PID.cpp`](./src/PID.cpp), lines 179-183):
+
+```sh
+  // NOTE: Previous cte is stored in previous p_error, and so the calculation of i_error must happen before the
+  // update of p_error
+  d_error = cte - p_error;
+  p_error = cte;
+  i_error += cte;
+```
+
+### _Computation of the Steering Angle_
+
+The `OutputSteeringAngle` methos is called by [`main.cpp`](./src/main.cpp) just after the `UpdateError` one (line 117):
+
+```sh
+  steer_value = pid.OutputSteeringAngle();
+```
+
+And the implementation can be found in [`PID.cpp`](./src/main.cpp) on line 199:
+
+```sh
+  double steering = -Kp * p_error - Ki * i_error -Kd * d_error;
+```
+
+The steering angle so calculated s then built in a message passed back to the sim at every iteration ([`main.cpp`](./src/main.cpp), lines 127-130):
+
+```sh
+  json msgJson;
+  msgJson["steering_angle"] = steer_value;
+  msgJson["throttle"] = 0.3;
+  auto msg = "42[\"steer\"," + msgJson.dump() + "]";
+```
+
+### _PID Tuning_
 
 ---
 ## PID results
