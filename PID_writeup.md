@@ -39,6 +39,17 @@ _Control_ | _Definition_
 **D** Control | Derivative controller: provides an output directly proportional to the _time derivative_ of the cross-track error. This helps preventing overshoots that would rise with the Proporional action only
 **I** Control | Integral controller: provides an output directly proportional to the _integral (on time)_ of the cross-track error. This eliminates the effects of biases that would affect a pure PD controller, and allows a steady state error = 0.
 
+The proportionality coefficients for each of the actions are often referred to as the controller's _Gains_.
+
+All the previous actions are implemented in [`PID.cpp`](./src/PID.cpp), separated in two methods: `UpdateError` (lines 173-191) and `OutputSteeringAngle` (lines 193-202).
+
+### _Initialization_
+
+### _Errors' Update_
+
+The `UpdateError` method
+
+### _Computation of the Steering Angle_
 
 ---
 ## PID results
