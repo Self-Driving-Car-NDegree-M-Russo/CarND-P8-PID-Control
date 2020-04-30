@@ -45,28 +45,71 @@ All the previous actions are implemented in [`PID.cpp`](./src/PID.cpp), separate
 
 ### _Initialization_
 
-The controller is initialized through the `Init` method, in [`PID.cpp`](./src/PID.cpp), starting at line 19. In it the values of the three gains are set, as well as the respective errors and the requirement for tuining (see lines 25-36):
+The controller is initialized through the `Init` method, in [`PID.cpp`](./src/PID.cpp), starting at line 19. In it the values of the three gains are set, as well as the respective errors and the requirement for tuining. The method is called from [`main.cpp`](./src/main.cpp), on line 93:
 
 ```sh
-  // Initialize gains
-  Kp = Kp_;
-  Ki = Ki_;
-  Kd = Kd_;
+  // Initialize PID
+  pid.Init(Kp, Ki, Kd, do_tune);
+```
 
-  // Initialize errors
-  p_error = 0.0;
-  i_error = 0.0;
-  d_error = 0.0;
+Note that the three gains are provided as input variables and then, eventually, tuned, while the funing flags is asked as a user's input though the code in lines 78-89:
 
-  // Initialize tuning parameters
-  do_tuning = do_tune_;
+```sh
+  //Set tuning flag
+  bool do_tune = false;
+  string do_tune_in;
+  std::cout <<"Do you want to enable tuning with Coordinated Ascent (Twiddle) method [y/(n)]? ";
+  getline(std::cin, do_tune_in);
+  if ((do_tune_in.compare("Y") == 0) || (do_tune_in.compare("y") == 0)){
+    std::cout << "Tuning enabled" <<std::endl;
+    do_tune = true;
+  }
+  else {
+    std::cout << "Tuning NOT enabled" <<std::endl;
+  }
 ```
 
 ### _Errors' Update_
 
-The `UpdateError` method
+The `UpdateError` method is called by [`main.cpp`](./src/main.cpp) at every message received from the simulator (se eon line 116):
+
+```sh
+  pid.UpdateError(cte);
+```
+Takes in input the cross-track error as provided by the simulator and calculates (and assign) the error. terms for proportional/integral/derivative actions ([`PID.cpp`](./src/PID.cpp), lines 179-183):
+
+```sh
+  // NOTE: Previous cte is stored in previous p_error, and so the calculation of i_error must happen before the
+  // update of p_error
+  d_error = cte - p_error;
+  p_error = cte;
+  i_error += cte;
+```
 
 ### _Computation of the Steering Angle_
+
+The `OutputSteeringAngle` methos is called by [`main.cpp`](./src/main.cpp) just after the `UpdateError` one (line 117):
+
+```sh
+  steer_value = pid.OutputSteeringAngle();
+```
+
+And the implementation can be found in [`PID.cpp`](./src/main.cpp) on line 199:
+
+```sh
+  double steering = -Kp * p_error - Ki * i_error -Kd * d_error;
+```
+
+The steering angle so calculated s then built in a message passed back to the sim at every iteration ([`main.cpp`](./src/main.cpp), lines 127-130):
+
+```sh
+  json msgJson;
+  msgJson["steering_angle"] = steer_value;
+  msgJson["throttle"] = 0.3;
+  auto msg = "42[\"steer\"," + msgJson.dump() + "]";
+```
+
+### _PID Tuning_
 
 ---
 ## PID results
