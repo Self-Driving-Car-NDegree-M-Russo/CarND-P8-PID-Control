@@ -17,7 +17,7 @@ The `master` branch does not present this dependency, even if, as it will be exp
 The reason for maintaining the branches separated is to keep the code for the actual project evaluation as simple as possible (the project does not actually require the implementation of logging/tests) and limit the number of dependencies (among the other thing, the code in `log_and_test` hasn't really beentested on multiple systems, and so at the present stage there is no guarantee on its portability).
 Nonetheless, I am a firm believer in TDD (Test Driven Development) and I wanted to experiment on making these functionalities available for some C++ source code.
 
-The present README is common to the two branches, evene if the rest of the repo changes: in the following I will describe how to build the code in the two cases. The source code for this project is in the [src](/src) folder: a detailed explanation is provided in a separate writeup, that documents also the results obtained.  
+The present README is common to the two branches, even if the rest of the repo changes: in the following I will describe how to build the code in the two cases. The source code for this project is in the [src](/src) folder: a detailed explanation is provided in a separate writeup, that documents also the results obtained.  
 
 ---
 ## `master` Branch
