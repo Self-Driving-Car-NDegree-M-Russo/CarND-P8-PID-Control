@@ -69,6 +69,8 @@ Note that the three gains are provided as input variables in the code and then, 
   }
 ```
 
+By default tuning is not enabled.
+
 ### _Errors' Update_
 
 The `UpdateError` method is called by [`main.cpp`](./src/main.cpp) at every message received from the simulator (see on line 116):
