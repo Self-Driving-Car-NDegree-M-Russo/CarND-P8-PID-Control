@@ -220,7 +220,7 @@ void PID::TuneGains() {
       BOOST_LOG_TRIVIAL(debug) << "TUNING..";
       BOOST_LOG_TRIVIAL(debug) << "Current p index : " << p_it;
 
-      if (p_plus) {
+      if (p_plus && (s_error < best_err)) {
         BOOST_LOG_TRIVIAL(debug) << "Cycle start - Increment p[p_it] by dp[p_it] ";
 
         p[p_it] += dp[p_it];
@@ -228,7 +228,6 @@ void PID::TuneGains() {
         // Set gains
         SetGains(p[0], p[1], p[2]);
 
-        p_plus = false;
       } else {
         if (s_error < best_err) {
           BOOST_LOG_TRIVIAL(debug) << "Case number one: best error found, no operations executed. Increment dp[p_it]";
@@ -238,6 +237,7 @@ void PID::TuneGains() {
           dp[p_it] *= 1.1;
 
           move_p_it = true;
+
         } else {
           if (p_minus) {
             BOOST_LOG_TRIVIAL(debug) << "Case number two: increment p executed but NO best error found. Decrement p[it]"
