@@ -148,7 +148,7 @@ The implementation of the method can be found in the `TuneGains` method in [`PID
   }
 ```
 
-* As a measurement of the change in performances, I am using the square root of the squared error, calculated as part of the `UpdateError` method ([`PID.cpp`](./srd/PID.cpp), line 185:
+* As a measurement of the change in performances, I am using the square root of the squared error, calculated as part of the `UpdateError` method ([`PID.cpp`](./srd/PID.cpp), line 185):
 
 ```sh
   s_error = sqrt(pow(cte,2));
@@ -162,4 +162,5 @@ The implementation of the method can be found in the `TuneGains` method in [`PID
 
 ---
 ## PID results
+
 
