@@ -63,6 +63,7 @@ void PID::Init(double Kp_, double Ki_, double Kd_, bool do_tune_) {
     // Initialize error and tolerance
     best_err = std::numeric_limits<double>::max();  //Initialize to high value
     threshold = 0.01;
+    tuning_completed = false;
   }
 }
 
@@ -114,6 +115,7 @@ void PID::Init(double Kp_, double Ki_, double Kd_, bool do_tune_, int init_it_, 
     // Initialize error and tolerance
     best_err = std::numeric_limits<double>::max();  //Initialize to high value
     threshold = 0.01;
+    tuning_completed = false;
   }
 }
 
@@ -207,10 +209,10 @@ void PID::TuneGains() {
    */
 
 
-  // Run tuning algorithm only after an intial transient to allow the vehicle to accelerate. In any case stop before
+  // Run tuning algorithm only after an initial transient to allow the vehicle to accelerate. In any case stop before
   // reaching maximum iterations
 
-  if ((it_count > init_it) && (it_count < max_it)){
+  if ((it_count > init_it) && (it_count < max_it) && (!tuning_completed)){
 
     double dp_avg = (fabs(dp[0]/p[0]) + fabs(dp[1]/p[1]) + fabs(dp[2]/p[2])) / 3.0;
 
@@ -220,7 +222,7 @@ void PID::TuneGains() {
       BOOST_LOG_TRIVIAL(debug) << "TUNING..";
       BOOST_LOG_TRIVIAL(debug) << "Current p index : " << p_it;
 
-      if (p_plus && (s_error < best_err)) {
+      if (p_plus) {
         BOOST_LOG_TRIVIAL(debug) << "Cycle start - Increment p[p_it] by dp[p_it] ";
 
         p[p_it] += dp[p_it];
@@ -228,6 +230,7 @@ void PID::TuneGains() {
         // Set gains
         SetGains(p[0], p[1], p[2]);
 
+        p_plus = false;
       } else {
         if (s_error < best_err) {
           BOOST_LOG_TRIVIAL(debug) << "Case number one: best error found, no operations executed. Increment dp[p_it]";
@@ -237,7 +240,6 @@ void PID::TuneGains() {
           dp[p_it] *= 1.1;
 
           move_p_it = true;
-
         } else {
           if (p_minus) {
             BOOST_LOG_TRIVIAL(debug) << "Case number two: increment p executed but NO best error found. Decrement p[it]"
@@ -275,6 +277,13 @@ void PID::TuneGains() {
         p_minus = true;
         move_p_it = false;
       }
+    }
+    else{
+      BOOST_LOG_TRIVIAL(info) << "Tuning threshold crossed:";
+      BOOST_LOG_TRIVIAL(info) << "Tuned parameters:";
+      BOOST_LOG_TRIVIAL(info) << "Kp = " << GetKp() << " Ki = " << GetKi() << " Kd = " << GetKd();
+
+      tuning_completed = true;
     }
 
     BOOST_LOG_TRIVIAL(debug) << "Adjusted parameters ...";

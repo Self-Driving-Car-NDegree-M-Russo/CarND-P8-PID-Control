@@ -69,7 +69,7 @@ int main() {
   // Set PID gains
   double Kp = 0.1;      // Initial value for Kp
   double Ki = 0.001;    // Initial value for Ki
-  double Kd = 2.8;      // Initial value for Kd
+  double Kd = 2.5;      // Initial value for Kd
 
   // User input section
   std::cout << "====================" << std::endl;
