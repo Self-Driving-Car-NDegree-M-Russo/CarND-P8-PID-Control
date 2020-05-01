@@ -113,9 +113,29 @@ The steering angle so calculated s then built in a message passed back to the si
 
 ### _PID Tuning_
 
-As mentioned in the first section, PID controller are the subject of an extremely extensive bibliography, covering design, implementation and tuning (from [here](https://www.academia.edu/27771107/PID_Controllers_2nd_Edition_%C3%85str%C3%B6m_Karl_J._H%C3%A4gglund_Tore_) to [here](https://www.amazon.com/Automatic-Tuning-Controllers-Karl-Astrom/dp/1556170815) to [here](https://www.intechopen.com/books/pid-control-for-industrial-processes/advanced-methods-of-pid-controller-tuning-for-specified-performance) and much, much more).
+As mentioned in the first section, PID controller are the subject of an extremely extensive bibliography, covering design, implementation and tuning (from [here](https://www.academia.edu/27771107/PID_Controllers_2nd_Edition_%C3%85str%C3%B6m_Karl_J._H%C3%A4gglund_Tore_) and [here](https://www.amazon.com/Automatic-Tuning-Controllers-Karl-Astrom/dp/1556170815) to [here](https://www.intechopen.com/books/pid-control-for-industrial-processes/advanced-methods-of-pid-controller-tuning-for-specified-performance) and much, much more).
 
+In this project we have applied the Coordinate Ascent (_Twiddle_) method as described in the Udacity lecture available [here](https://youtu.be/2uQ2BSzDvXs). Using this method the three controller gains are recursively perurbed and the effect of that perturbation on the performance of the system is measured. The space of the controller gains is explored until the perturbations required become negligible.
 
+Some pseudo-code for the alogorithm would look like:
+
+```sh
+  for i in range(len_vect_gains)
+    P[i] += dP[i]
+    calculate_err
+    if err < best_err
+      best_err = err
+      dP[i] *= 1.1
+    else
+      P[i] -= 2*dP[i]
+      calculate_err
+      if err < best_err
+        best_err = err
+        dP[i] *= 1.1
+      else
+        P[i] += dP[i]
+        dP[i] *= 0.9
+```
 
 ---
 ## PID results
