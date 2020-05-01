@@ -113,6 +113,10 @@ The steering angle so calculated s then built in a message passed back to the si
 
 ### _PID Tuning_
 
+As mentioned in the first section, PID controller are the subject of an extremely extensive bibliography, covering design, implementation and tuning (from [here](https://www.academia.edu/27771107/PID_Controllers_2nd_Edition_%C3%85str%C3%B6m_Karl_J._H%C3%A4gglund_Tore_) to [here](https://www.amazon.com/Automatic-Tuning-Controllers-Karl-Astrom/dp/1556170815) to [here](https://www.intechopen.com/books/pid-control-for-industrial-processes/advanced-methods-of-pid-controller-tuning-for-specified-performance) and much, much more).
+
+
+
 ---
 ## PID results
 
