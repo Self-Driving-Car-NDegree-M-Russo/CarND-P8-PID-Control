@@ -113,6 +113,52 @@ The steering angle so calculated s then built in a message passed back to the si
 
 ### _PID Tuning_
 
+As mentioned in the first section, PID controller are the subject of an extremely extensive bibliography, covering design, implementation and tuning (from [here](https://www.academia.edu/27771107/PID_Controllers_2nd_Edition_%C3%85str%C3%B6m_Karl_J._H%C3%A4gglund_Tore_) and [here](https://www.amazon.com/Automatic-Tuning-Controllers-Karl-Astrom/dp/1556170815) to [here](https://www.intechopen.com/books/pid-control-for-industrial-processes/advanced-methods-of-pid-controller-tuning-for-specified-performance) and much, much more).
+
+In this project we have applied the Coordinate Ascent (_Twiddle_) method as described in the Udacity lecture available [here](https://youtu.be/2uQ2BSzDvXs). Using this method the three controller gains are recursively perurbed and the effect of that perturbation on the performance of the system is measured. The space of the controller gains is explored in the direction of improved performances, until the perturbations required to further progress become negligible.
+
+Some pseudo-code for the alogorithm would look like:
+
+```sh
+  for i in range(len_vect_gains)
+    P[i] += dP[i]
+    calculate_err
+    if err < best_err
+      best_err = err
+      dP[i] *= 1.1
+    else
+      P[i] -= 2*dP[i]
+      calculate_err
+      if err < best_err
+        best_err = err
+        dP[i] *= 1.1
+      else
+        P[i] += dP[i]
+        dP[i] *= 0.9
+```
+
+The implementation of the method can be found in the `TuneGains` method in [`PID.cpp`](./src/PID.cpp), (lines 204-284). Few notes:
+
+* The implementation had to be modified to take into account the fact that the tuning algorithm had to run in parallel with the simulator, that is providing the evaluation of the cross-track error in real time. Hence it was necessary to introduce some flags to keep track of the previous state in the cycle. The method is called at every measurement's update in [`main.cpp`](./src/main.cpp), lines 122-125:
+
+```sh
+  // If tuning flag active, call tuning algorithm
+  if (pid.GetTuneFlag()){
+    pid.TuneGains();
+  }
+```
+
+* As a measurement of the change in performances, I am using the square root of the squared error, calculated as part of the `UpdateError` method ([`PID.cpp`](./srd/PID.cpp), line 185):
+
+```sh
+  s_error = sqrt(pow(cte,2));
+```
+
+* The tuning process is stopped when the average delta gain, in percentage, becomes lower than a given threshold. This parameter is defined in [`PID.cpp`](./src/PID.cpp), line 215:
+
+```sh
+  double dp_avg = (fabs(dp[0]/p[0]) + fabs(dp[1]/p[1]) + fabs(dp[2]/p[2])) / 3.0;
+```
+
 ---
 ## PID results
-
