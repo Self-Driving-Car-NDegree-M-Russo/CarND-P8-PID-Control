@@ -154,13 +154,55 @@ The implementation of the method can be found in the `TuneGains` method in [`PID
   s_error = sqrt(pow(cte,2));
 ```
 
+* The tuning process start after a given number of iterations (by default 350). This allows the vehicle to reach some speed before starting to affect its trajectory.
 * The tuning process is stopped when the average delta gain, in percentage, becomes lower than a given threshold. This parameter is defined in [`PID.cpp`](./src/PID.cpp), line 215:
 
 ```sh
   double dp_avg = (fabs(dp[0]/p[0]) + fabs(dp[1]/p[1]) + fabs(dp[2]/p[2])) / 3.0;
 ```
 
+* The tuning cycle is constrained to not exceed a given number of iterations (by default 1000).
+
 ---
 ## PID results
 
+As mentioned in the sections above, some values for the controller's gains are provided in input, and the user can decide whether or not to activate the tuning on it.
 
+The initial values provided have been identified through some manual exercise (varying the proportional controller alone first, then operating on the derivative term and finally on the integral) as well as considering some available references from similar projects from other students (see [here](https://github.com/wlsmith42/PID-Control) and [here](https://medium.com/intro-to-artificial-intelligence/pid-controller-udacitys-self-driving-car-nanodegree-c4fd15bdc981) for example). The final choice is:
+
+_Gain_ | _Value_
+---- | ----
+`Kp` | 0.1
+`Ki` | 0.01
+`Kd` | 2.5
+
+These values are assigned in [`main.cpp`](./src/main.cpp), lines 69-73:
+
+```sh
+  // Set PID gains
+  double Kp = 0.1;      // Initial value for Kp
+  double Ki = 0.001;    // Initial value for Ki
+  double Kd = 2.5;      // Initial value for Kd
+```
+
+And an recording of the track followed with these gains is visible in the video here below:
+
+
+
+As it can be seen these gains are effective in finishing the track, but there is definitely room for improvement (for example we can easily think to modify Kd to try to reduce the swaying of the vehicle around the middle lane). Indeed, if we activate the tuning option from command line when we run the code we can see that the tuning ends with gains like this:
+
+_Gain_ | _Value_
+---- | ----
+`Kp` | 
+`Ki` | 
+`Kd` | 
+
+And the track recorded in that case is the following:
+
+
+
+Few more notes:
+
+* The behaviour of the vehicle can still be improved: amongst ideas that could be evaluated regarding we can mention a different performance indicator to consider (for example averaging or comunlating a few measurements of the cross-track error rather than a single one) or the evaluation of a different threshold to allow a longer tuning.
+* I noticed that if we run the code twice we would end up with _similar_ but not _identical_ values for the tuned gains. I believe that this is a consequence of the the non-linearity of the model likely implemented by the simulator, that affects the behavior of the tuning algorithm.
+* Indeed a tuning of the PID against a linear/linearized model of the vehicle would probably provide the best option for a robust identification of the gains: this could still be enhanced using the tuning algorithm against the simulator.
