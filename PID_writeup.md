@@ -171,7 +171,7 @@ As mentioned in the sections above, some values for the controller's gains are p
 The initial values provided have been identified through some manual exercise (varying the proportional controller alone first, then operating on the derivative term and finally on the integral) as well as considering some available references from similar projects from other students (see [here](https://github.com/wlsmith42/PID-Control) and [here](https://medium.com/intro-to-artificial-intelligence/pid-controller-udacitys-self-driving-car-nanodegree-c4fd15bdc981) for example). The final choice is:
 
 _Gain_ | _Value_
----- | ----
+---- | :----:
 `Kp` | 0.1
 `Ki` | 0.01
 `Kd` | 2.5
@@ -189,16 +189,97 @@ And an recording of the track followed with these gains is visible in the video 
 
 
 
-As it can be seen these gains are effective in finishing the track, but there is definitely room for improvement (for example we can easily think to modify Kd to try to reduce the swaying of the vehicle around the middle lane). Indeed, if we activate the tuning option from command line when we run the code we can see that the tuning ends with gains like this:
+As it can be seen these gains are effective in finishing the track, but there could be room for improvement. Indeed, if we activate the tuning option from command line when we run the code we can see that the tuning ends with gains like this:
 
 _Gain_ | _Value_
----- | ----
-`Kp` | 
-`Ki` | 
-`Kd` | 
+---- | :----:
+`Kp` | 0.14
+`Ki` | 0.116
+`Kd` | 2.9
 
 And the track recorded in that case is the following:
 
+### _Logging Messages_
+
+As decribed in the [`README`](README.md#logger-operationsetup) file, in case of this branch a logger has been implemented, and the messages are defined in the [`settings.txt`](./logs/settings.txt) file. 
+
+At the moment, the file allows messages to be logged both on the console and on a file (stored in the same folder). However, the messages are not the same: the console shows only messages with severity level = `info` while the file stores everything greater than `debug`. This avoids the terminal to be flooded by messages: for example, in case of a run with the tuning algorithm, the console will show something like:
+
+```sh
+  2020-05-02 16:07:07.847852 [info] *** Listening to port 4567
+  2020-05-02 16:07:48.394148 [info] *** Connected!!!
+  2020-05-02 16:08:06.934386 [info] *** Tuning threshold crossed:
+  2020-05-02 16:08:06.934429 [info] *** Tuned parameters:
+  2020-05-02 16:08:06.934454 [info] *** Kp = 0.137577 Ki = 0.00115832 Kd = 2.89579
+```
+
+While the file will look something like:
+
+```sh
+  [1] [2020-05-02 16:07:07.840115] [debug] Initial values for PID gains - Kp = 0.1; Ki = 0.001; Kd = 2.5
+  [2] [2020-05-02 16:07:07.840888] [debug] Tuning flag = true
+  [3] [2020-05-02 16:07:07.847852] [info] Listening to port 4567
+  [4] [2020-05-02 16:07:48.394148] [info] Connected!!!
+  [5] [2020-05-02 16:07:49.900092] [debug] Iteration : 1
+  [6] [2020-05-02 16:07:49.900205] [debug] CTE: 0.7598 Steering Value: -1.97624
+  [7] [2020-05-02 16:07:49.900650] [debug] 42["steer",{"steering_angle":-1.9762398,"throttle":0.3}]
+  [8] [2020-05-02 16:07:49.931294] [debug] Iteration : 2
+
+  ...
+  
+  [1055] [2020-05-02 16:07:58.933411] [debug] Iteration : 351
+  [1056] [2020-05-02 16:07:58.933485] [debug] CTE: 0.3449 Steering Value: -0.0596738
+  [1057] [2020-05-02 16:07:58.933515] [debug] Average dp/p = 0.1 against threshold : 0.01
+  [1058] [2020-05-02 16:07:58.933538] [debug] TUNING..
+  [1059] [2020-05-02 16:07:58.933558] [debug] Current p index : 0
+  [1060] [2020-05-02 16:07:58.933578] [debug] Cycle start - Increment p[p_it] by dp[p_it] 
+  [1061] [2020-05-02 16:07:58.933598] [debug] Adjusted parameters ...
+  [1062] [2020-05-02 16:07:58.933618] [debug] Kp = 0.11 Ki = 0.001 Kd = 2.5
+  [1063] [2020-05-02 16:07:58.933640] [debug] dKp = 0.01 dKi = 0.0001 Kd = 0.25
+  [1064] [2020-05-02 16:07:58.933663] [debug] Error = 0.3449
+  [1065] [2020-05-02 16:07:58.933702] [debug] 42["steer",{"steering_angle":-0.0596738,"throttle":0.3}]
+  [1066] [2020-05-02 16:07:58.965226] [debug] Iteration : 352
+  [1067] [2020-05-02 16:07:58.965300] [debug] CTE: 0.3552 Steering Value: -0.063861
+  [1068] [2020-05-02 16:07:58.965334] [debug] Average dp/p = 0.0969697 against threshold : 0.01
+  [1069] [2020-05-02 16:07:58.965359] [debug] TUNING..
+  
+  ...
+  
+  [3774] [2020-05-02 16:08:06.934278] [debug] Iteration : 597
+  [3775] [2020-05-02 16:08:06.934351] [debug] CTE: -0.063 Steering Value: -0.0185988
+  [3776] [2020-05-02 16:08:06.934386] [info] Tuning threshold crossed:
+  [3777] [2020-05-02 16:08:06.934429] [info] Tuned parameters:
+  [3778] [2020-05-02 16:08:06.934454] [info] Kp = 0.137577 Ki = 0.00115832 Kd = 2.89579
+  [3779] [2020-05-02 16:08:06.934482] [debug] Adjusted parameters ...
+  [3780] [2020-05-02 16:08:06.934499] [debug] Kp = 0.137577 Ki = 0.00115832 Kd = 2.89579
+  [3781] [2020-05-02 16:08:06.934518] [debug] dKp = 0.00191904 dKi = 8.5997e-06 Kd = 0.0238881
+  [3782] [2020-05-02 16:08:06.934541] [debug] Error = 0.063
+  [3783] [2020-05-02 16:08:06.934585] [debug] 42["steer",{"steering_angle":-0.0185988470363343,"throttle":0.3}]
+  [3784] [2020-05-02 16:08:06.964998] [debug] Iteration : 598
+  
+  ...
+```
+
+So, in general, it will contain much more things.
+
+However, if the user chooses to change this setup, this can be easily done through the [`settings.txt`](./logs/settings.txt) file, _without the need to recompile_. For example, to show all the same messages from the file on the console, all it's needed is a change in the section between line 8 and 12:
+
+```sh# Sink settings sections
+  [Sinks.1]
+  Destination=Console
+  Filter="%Severity% >= info"
+  Format="%TimeStamp% [%Severity%] *** %Message%"
+```
+
+Just modify the filter on the severity from `>=info` to `>=debug`. 
+
+### _Tests_
+
+Another specific characteristic of this branch is the presence of a [`test`](./test) folder with a [`testPID.cpp`](./test/testPID.cpp) file. 
+
+The [README](README.md#test-framework) file already explains how to run the tests: this should happen after any change on any of the methods in [PID.cpp](./src/PID.cpp). As a further explanation note, the [`testPID.cpp`](./test/testPID.cpp) file is divided in few sections, for different capabilities provided by the various methods (Initialization, Settings of the gains, Calculation of the Error, Tuning). They all should be pretty straightforward to go through, even if the last one, given the multi-step nature of the algorithm, might take a bit of time.
+
+Please note that this test suite is not intended in any way to provide full test coverage on the code: the intent was (and is) to demonstrate how to implement a viable unit test framework to produce better quality code.
 
 ### _Final considerations and next steps_
 
