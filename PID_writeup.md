@@ -271,7 +271,7 @@ However, if the user chooses to change this setup, this can be easily done throu
   Format="%TimeStamp% [%Severity%] *** %Message%"
 ```
 
-Just modify the filter on the severity from `>=info` to `>=debug`. 
+Just modify the filter on the severity from `>=info` to `>=debug`. This branch contains a few examples of the log files in the [`logs`](./logs) folder. 
 
 ### _Tests_
 
