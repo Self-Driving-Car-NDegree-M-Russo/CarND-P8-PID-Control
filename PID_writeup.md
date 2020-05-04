@@ -200,7 +200,7 @@ _Gain_ | _Value_
 (See also the final section on further improvements)
 The track recorded in that case is the following:
 
-[![Tuning Run](http://img.youtube.com/vi/G1QeqORZkuI/0.jpg)](https://https://www.youtube.com/watch?v=G1QeqORZkuI "Tuning Run")
+[![Tuning Run](http://img.youtube.com/vi/G1QeqORZkuI/0.jpg)](https://www.youtube.com/watch?v=G1QeqORZkuI "Tuning Run")
 
 ### _Logging Messages_
 
