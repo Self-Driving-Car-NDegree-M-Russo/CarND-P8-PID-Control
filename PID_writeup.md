@@ -187,7 +187,7 @@ These values are assigned in [`main.cpp`](./src/main.cpp), lines 69-73:
 
 And an recording of the track followed with these gains is visible in the video here below:
 
-
+[![Default Run](http://img.youtube.com/vi/SpYnDDWD634/0.jpg)](https://https://www.youtube.com/watch?v=SpYnDDWD634 "Default Run")
 
 As it can be seen these gains are effective in finishing the track, but there could be room for improvement. Indeed, if we activate the tuning option from command line when we run the code we can see that the tuning ends with gains like this:
 
@@ -200,7 +200,7 @@ _Gain_ | _Value_
 (See also the final section on further improvements)
 The track recorded in that case is the following:
 
-
+[![Tuning Run](http://img.youtube.com/vi/G1QeqORZkuI/0.jpg)](https://https://https://www.youtube.com/watch?v=G1QeqORZkuI "Tuning Run")
 
 ### _Logging Messages_
 
