@@ -197,7 +197,10 @@ _Gain_ | _Value_
 `Ki` | 0.116
 `Kd` | 2.9
 
-And the track recorded in that case is the following:
+(See also the final section on further improvements)
+The track recorded in that case is the following:
+
+
 
 ### _Logging Messages_
 
