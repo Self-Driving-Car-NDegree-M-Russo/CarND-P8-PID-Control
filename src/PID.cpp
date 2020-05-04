@@ -63,6 +63,8 @@ void PID::Init(double Kp_, double Ki_, double Kd_, bool do_tune_) {
     // Initialize error and tolerance
     best_err = std::numeric_limits<double>::max();  //Initialize to high value
     threshold = 0.01;
+
+    // Initialize completed tuning flag
     tuning_completed = false;
   }
 }
@@ -115,6 +117,8 @@ void PID::Init(double Kp_, double Ki_, double Kd_, bool do_tune_, int init_it_, 
     // Initialize error and tolerance
     best_err = std::numeric_limits<double>::max();  //Initialize to high value
     threshold = 0.01;
+
+    // Initialize completed tuning flag
     tuning_completed = false;
   }
 }

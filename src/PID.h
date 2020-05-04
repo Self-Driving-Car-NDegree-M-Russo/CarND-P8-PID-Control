@@ -103,7 +103,7 @@ class PID {
   int p_it;                       // Itreating index over p, dp vectors
   bool p_plus, p_minus,move_p_it; // Flags to use when iterating over p, dp vectors
   double threshold;               // Threshold for the tuning
-  bool tuning_completed;
+  bool tuning_completed;          // Flag to indicate the end of the tuning phase
 };
 
 #endif  // PID_H
