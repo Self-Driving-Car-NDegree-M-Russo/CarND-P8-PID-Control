@@ -6,7 +6,7 @@ The purpose of this project is the implementation, in C++, of a PID controller f
 
 The source code is contained in the [src](./src) folder in this git repo. It is the evolution of a starter project provided directly by Udacity, where two files where mainly modified: [`PID.cpp`](./src/PID.cpp) and [`PID.h`](./src/PID.h). The [`main.cpp`](./src/main.cpp) file has been left fundamentally unchanged, except for the implementation of a logging capability.
 
-The following sections of this writeup will provide details on the controller operations and the data flow, and in doing so the fundamental pieces of the code will be explained. A final [Results](PID_writeup.md#PID-results) section will show the outcomes of the filter running against two different data sets. 
+The following sections of this writeup will provide details on the controller operations and the data flow, and in doing so the fundamental pieces of the code will be explained. A final [Results](PID_writeup.md#Results) section will show the behavior of the controller and describe possible next developements. 
 
 ---
 ## Data Input
@@ -164,7 +164,7 @@ The implementation of the method can be found in the `TuneGains` method in [`PID
 * The tuning cycle is constrained to not exceed a given number of iterations (by default 1000).
 
 ---
-## PID results
+## Results
 
 As mentioned in the sections above, some values for the controller's gains are provided in input, and the user can decide whether or not to activate the tuning on it.
 
