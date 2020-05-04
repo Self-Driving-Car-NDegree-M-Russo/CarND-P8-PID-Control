@@ -40,7 +40,7 @@ int main() {
   // Set PID gains
   double Kp = 0.1;      // Initial value for Kp
   double Ki = 0.001;    // Initial value for Ki
-  double Kd = 2.8;      // Initial value for Kd
+  double Kd = 2.5;      // Initial value for Kd
   std::cout << "Values for PID gains - Kp = " << Kp << "; Ki = " << Ki << "; Kd = " << Kd << std::endl;
 
   //Set tuning flag

@@ -20,6 +20,13 @@ class PID {
   void Init(double Kp_, double Ki_, double Kd_, bool do_tune_);
 
   /**
+   * Initialize PID - case with tuning parameters.
+   * @param (Kp_, Ki_, Kd_, do_tune_, init_it_, max_init_ ) The initial PID gains, tuning flag, iterations before
+   * tuning, max iterations allowed for tuning.
+   */
+  void Init(double Kp_, double Ki_, double Kd_, bool do_tune_, int init_it_, int max_it_);
+
+  /**
    * Set PID gains
    * @param (Kp_, Ki_, Kd_) The PID gains
    */
@@ -96,6 +103,7 @@ class PID {
   int p_it;                       // Itreating index over p, dp vectors
   bool p_plus, p_minus,move_p_it; // Flags to use when iterating over p, dp vectors
   double threshold;               // Threshold for the tuning
+  bool tuning_completed;          // Flag to indicate the end of the tuning phase
 };
 
 #endif  // PID_H
