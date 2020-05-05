@@ -41,8 +41,11 @@ int main() {
   double Kp = 0.1;      // Initial value for Kp
   double Ki = 0.001;    // Initial value for Ki
   double Kd = 2.5;      // Initial value for Kd
-  std::cout << "Values for PID gains - Kp = " << Kp << "; Ki = " << Ki << "; Kd = " << Kd << std::endl;
 
+  // User input section
+  std::cout << "====================" << std::endl;
+  std::cout << "Initial values for PID gains - Kp = " << Kp << "; Ki = " << Ki << "; Kd = " << Kd << std::endl;
+  std::cout << "====================" << std::endl;
   //Set tuning flag
   bool do_tune = false;
   string do_tune_in;
@@ -54,9 +57,8 @@ int main() {
   }
   else {
     std::cout << "Tuning NOT enabled" <<std::endl;
-    std::cout << "Running parameters ..." << std::endl;
-    std::cout << "Kp = " << Kp << " Ki = " << Ki << " Kd = " << Kd << std::endl;
   }
+  std::cout << "====================" << std::endl;
 
   // Initialize PID
   pid.Init(Kp, Ki, Kd, do_tune);
@@ -87,8 +89,7 @@ int main() {
 
           // DEBUG
           #ifdef PID_DEBUG
-            std::cout << "CTE: " << cte << " Steering Value: " << steer_value
-                    << std::endl;
+            std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
           #endif
 
           // If tuning flag active, call tuning algorithm

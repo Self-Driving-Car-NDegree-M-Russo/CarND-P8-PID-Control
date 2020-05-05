@@ -281,11 +281,11 @@ void PID::TuneGains() {
       }
     }
     else{
-      std::cout << "-------------------------" << std::endl;
+      std::cout << "=========================" << std::endl;
       std::cout << "Tuning threshold crossed:" << std::endl;
       std::cout << "Tuned parameters:" << std::endl;
       std::cout << "Kp = " << GetKp() << " Ki = " << GetKi() << " Kd = " << GetKd() << std::endl;
-      std::cout << "-------------------------" << std::endl;
+      std::cout << "=========================" << std::endl;
 
       tuning_completed = true;
     }
