@@ -71,13 +71,12 @@ CMake will take care of the dependencies. In the `Debug` case a flag (`PID_DEBUG
    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DPID_DEBUG")
 ```
 
-An example of this can be found in [main.cpp](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/blob/master/src/main.cpp) on lines (89-92):
+An example of this can be found in [main.cpp](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/blob/master/src/main.cpp) on lines (90-93):
 
 ```
   // DEBUG
   #ifdef PID_DEBUG
-     std::cout << "CTE: " << cte << " Steering Value: " << steer_value
-          << std::endl;
+     std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
   #endif
 ```          
 
