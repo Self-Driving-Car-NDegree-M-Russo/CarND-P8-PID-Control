@@ -205,6 +205,99 @@ The track recorded in that case is the following:
 
 [![Tuning Run](http://img.youtube.com/vi/G1QeqORZkuI/0.jpg)](https://https://www.youtube.com/watch?v=G1QeqORZkuI "Tuning Run")
 
+### _Difference between Debug and Relase code_
+
+As explained in the [`README`](./README.md) file, this code can be built and run in either a `Debug` or `Release` mode, the difference being the kind of information displayed to the user on the console. 
+
+In the case of a `Release` run, for example, the output would be something like:
+
+```sh
+  Listening to port 4567
+  Connected!!!
+  =========================
+  Tuning threshold crossed:
+  Tuned parameters:
+  Kp = 0.181445 Ki = 0.00149228 Kd = 3.72024
+  =========================
+```
+
+While for a `Debug` run we would see much more stuff:
+
+```sh
+  Listening to port 4567
+  Connected!!!
+  *************************
+  Iteration : 1
+  CTE: 0.7598 Steering Value: -1.97624
+  42["steer",{"steering_angle":-1.9762398,"throttle":0.3}]
+  *************************
+  Iteration : 2
+  CTE: 0.7598 Steering Value: -0.0774996
+  42["steer",{"steering_angle":-0.0774996,"throttle":0.3}]
+  *************************
+
+  ...
+  
+  *************************
+  Iteration : 418
+  CTE: 0.293 Steering Value: -0.11346
+  -------------------------
+  Average dp/p = 0.09 against threshold : 0.01
+  -------------------------
+  TUNING
+  Current p index : 2
+  Cycle start - Increment p[p_it] by dp[p_it]
+  -------------------------
+  Adjusted parameters ...
+  Kp = 0.259374 Ki = 0.00259374 Kd = 6.42541
+  dKp = 0.0233437 dKi = 0.000233437 Kd = 0.530538
+  Error = 0.293
+  42["steer",{"steering_angle":-0.113460316482461,"throttle":0.3}]
+  *************************
+  Iteration : 419
+  CTE: 0.3154 Steering Value: -0.124899
+  -------------------------
+  Average dp/p = 0.0875229 against threshold : 0.01
+  -------------------------
+  TUNING
+  Current p index : 2
+  Case number two: increment p executed but NO best error found. Decrement p[it] by 2*dp[p_it]
+  -------------------------
+  Adjusted parameters ...
+  Kp = 0.259374 Ki = 0.00259374 Kd = 5.36433
+  dKp = 0.0233437 dKi = 0.000233437 Kd = 0.530538
+  Error = 0.3154
+  42["steer",{"steering_angle":-0.124898579254641,"throttle":0.3}]
+  *************************
+  
+  ...
+  
+  *************************
+  Iteration : 565
+  CTE: -0.0487 Steering Value: -0.177524
+  =========================
+  Tuning threshold crossed:
+  Tuned parameters:
+  Kp = 0.130801 Ki = 0.00121 Kd = 3.29725
+  =========================
+  -------------------------
+  Adjusted parameters ...
+  Kp = 0.130801 Ki = 0.00121 Kd = 3.29725
+  dKp = 0.00131073 dKi = 1.07242e-05 Kd = 0.0364092
+  Error = 0.0487
+  42["steer",{"steering_angle":-0.1775243393,"throttle":0.3}]
+  *************************
+  Iteration : 566
+  CTE: -0.0126 Steering Value: -0.151896
+  42["steer",{"steering_angle":-0.1518963094,"throttle":0.3}]
+  *************************
+  
+  ...
+  
+```
+
+In order to change the content/format of the messages, the code will have to be modified and recompiled.
+
 ### _Final considerations and next steps_
 
 * The behavior of the vehicle can still be improved: amongst ideas that could be evaluated we can mention a different performance indicator to consider (for example averaging or comunlating a few measurements of the cross-track error rather than a single one) or the definition of a different threshold to allow (for example) a longer tuning.
