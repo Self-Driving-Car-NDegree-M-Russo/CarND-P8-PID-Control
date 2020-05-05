@@ -1,4 +1,4 @@
-# PID Control (IN PROGRESS)
+# PID Control
 [![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 
 ---
@@ -65,19 +65,18 @@ while for the `Release` case, again from the project's root you will need to run
   make
 ```
 
-CMake will take care of the dependencies. In the `Debug` case a flag has been deined in the [CMakeLists.txt](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/blob/master/CMakeLists.txt) (line 10) to allow printout on screen of various messages:
+CMake will take care of the dependencies. In the `Debug` case a flag (`PID_DEBUG`) has been defined in the [CMakeLists.txt](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/blob/master/CMakeLists.txt) (line 10) to allow printout on screen of various messages:
 
 ```
    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DPID_DEBUG")
 ```
 
-An example of this can be found in [main.cpp](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/blob/master/src/main.cpp) on lines (89-92):
+An example of this can be found in [main.cpp](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/blob/master/src/main.cpp) on lines (90-93):
 
 ```
   // DEBUG
   #ifdef PID_DEBUG
-     std::cout << "CTE: " << cte << " Steering Value: " << steer_value
-          << std::endl;
+     std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
   #endif
 ```          
 
