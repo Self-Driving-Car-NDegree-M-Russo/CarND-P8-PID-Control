@@ -300,6 +300,6 @@ In order to change the content/format of the messages, the code will have to be 
 
 ### _Final considerations and next steps_
 
-* The behavior of the vehicle can still be improved: amongst ideas that could be evaluated we can mention a different performance indicator to consider (for example averaging or comunlating a few measurements of the cross-track error rather than a single one) or the definition of a different threshold to allow (for example) a longer tuning.
+* The behavior of the vehicle can still be improved: amongst ideas that could be evaluated we can mention a different performance indicator to consider (for example averaging or cumulating a few measurements of the cross-track error rather than a single one) or the definition of a different threshold to allow (for example) a longer tuning.
 * I noticed that if we run the code twice we would end up with _similar_ but not _identical_ values for the tuned gains. I believe that this is a consequence of the the non-linearity of the model likely implemented by the simulator, that affects the behavior of the tuning algorithm.
 * Indeed a tuning of the PID against a linear/linearized model of the vehicle would probably provide the best option for a robust identification of the gains: this could still be enhanced using the tuning algorithm against the simulator.
