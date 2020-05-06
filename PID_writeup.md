@@ -137,7 +137,7 @@ Some pseudo-code for the alogorithm would look like:
         dP[i] *= 0.9
 ```
 
-The implementation of the method can be found in the `TuneGains` method in [`PID.cpp`](./src/PID.cpp), (lines 204-284). Few notes:
+The implementation of the method can be found in the `TuneGains` method in [`PID.cpp`](./src/PID.cpp), (lines 210-298). Few notes:
 
 * The implementation had to be modified to take into account the fact that the tuning algorithm had to run in parallel with the simulator, that is providing the evaluation of the cross-track error in real time. Hence it was necessary to introduce some flags to keep track of the previous state in the cycle. The method is called at every measurement's update in [`main.cpp`](./src/main.cpp), lines 122-125:
 
@@ -148,14 +148,14 @@ The implementation of the method can be found in the `TuneGains` method in [`PID
   }
 ```
 
-* As a measurement of the change in performances, I am using the square root of the squared error, calculated as part of the `UpdateError` method ([`PID.cpp`](./srd/PID.cpp), line 185):
+* As a measurement of the change in performances, I am using the square root of the squared error, calculated as part of the `UpdateError` method ([`PID.cpp`](./src/PID.cpp), line 191):
 
 ```sh
   s_error = sqrt(pow(cte,2));
 ```
 
-* The tuning process start after a given number of iterations (by default 350). This allows the vehicle to reach some speed before starting to affect its trajectory.
-* The tuning process is stopped when the average delta gain, in percentage, becomes lower than a given threshold. This parameter is defined in [`PID.cpp`](./src/PID.cpp), line 215:
+* The tuning process starts after a given number of iterations (by default 350). This allows the vehicle to reach some speed before starting to affect its trajectory.
+* The tuning process is stopped when the average delta gain, in percentage, becomes lower than a given threshold. This parameter is defined in [`PID.cpp`](./src/PID.cpp), line 221:
 
 ```sh
   double dp_avg = (fabs(dp[0]/p[0]) + fabs(dp[1]/p[1]) + fabs(dp[2]/p[2])) / 3.0;
