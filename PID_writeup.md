@@ -207,7 +207,7 @@ The track recorded in that case is the following:
 
 ### _Difference between Debug and Relase code_
 
-As explained in the [`README`](./README.md) file, this code can be built and run in either a `Debug` or `Release` mode, the difference being the kind of information displayed to the user on the console. 
+As explained in the [`README`](./README.md#compiling-the-code) file, this code can be built and run in either a `Debug` or `Release` mode, the difference being the kind of information displayed to the user on the console. 
 
 In the case of a `Release` run, for example, the output would be something like:
 
