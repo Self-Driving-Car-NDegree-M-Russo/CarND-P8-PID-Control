@@ -22,7 +22,7 @@ The parsing of the websocket message happens in [`main.cpp`](./src/main.cpp). Th
   double speed = std::stod(j[1]["speed"].get<string>());
   double angle = std::stod(j[1]["steering_angle"].get<string>());
 ```
- we can see that the message from the simulator includes the cross-track error of the vehicle (i.e. the error with respect to the reference trajectory), its current speed and steering angle. cte will be used by the subesequent control portion, and is also sent to the logger together with the steering angle, for debugging purposes (see lines 119-120):
+we can see that the message from the simulator includes the cross-track error of the vehicle (i.e. the error with respect to the reference trajectory), its current speed and steering angle. The cte will be an input for the subesequent control portion, and is also sent to the logger together with the steering angle, for debugging purposes (see lines 119-120):
  
  ```sh
   // DEBUG
