@@ -15,7 +15,7 @@ The data source for this Filter will be the Udacity [simulator](https://github.c
 
 ### Message Parsing
 
-The parsing of the websocket message happens in `main.cpp`. The retrieval of information is clear in lines 110-113:
+The parsing of the websocket message happens in [`main.cpp`](./src/main.cpp). The retrieval of information is clear in lines 110-113:
 
 ```sh
   double cte = std::stod(j[1]["cte"].get<string>());
