@@ -78,7 +78,7 @@ The `UpdateError` method is called by [`main.cpp`](./src/main.cpp) at every mess
 ```sh
   pid.UpdateError(cte);
 ```
-It takes in input the cross-track error as provided by the simulator and calculates (and assigns) the error terms for proportional/integral/derivative actions ([`PID.cpp`](./src/PID.cpp), lines 179-183):
+It takes in input the cross-track error as provided by the simulator and calculates (and assigns) the error terms for proportional/integral/derivative actions ([`PID.cpp`](./src/PID.cpp), lines 185-189):
 
 ```sh
   // NOTE: Previous cte is stored in previous p_error, and so the calculation of i_error must happen before the
@@ -96,13 +96,13 @@ The `OutputSteeringAngle` methos is called by [`main.cpp`](./src/main.cpp) just 
   steer_value = pid.OutputSteeringAngle();
 ```
 
-And the implementation can be found in [`PID.cpp`](./src/main.cpp) on line 199:
+And the implementation can be found in [`PID.cpp`](./src/main.cpp) on line 205:
 
 ```sh
   double steering = -Kp * p_error - Ki * i_error -Kd * d_error;
 ```
 
-The steering angle so calculated s then built in a message passed back to the sim at every iteration ([`main.cpp`](./src/main.cpp), lines 127-130):
+The steering angle so calculated is then built in a message passed back to the sim at every iteration ([`main.cpp`](./src/main.cpp), lines 127-130):
 
 ```sh
   json msgJson;
