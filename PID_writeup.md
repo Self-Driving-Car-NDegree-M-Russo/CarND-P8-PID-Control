@@ -52,7 +52,7 @@ The controller is initialized through the `Init` method, in [`PID.cpp`](./src/PI
   pid.Init(Kp, Ki, Kd, do_tune);
 ```
 
-Note that the three gains are provided as input variables in the code and then, eventually, tuned, while the funing flags is asked as a user's input through the code in lines 78-89:
+Note that the three gains are provided as input variables in the code and then, eventually, tuned, while the tuning flag is asked as a user's input through the code in lines 78-89:
 
 ```sh
   //Set tuning flag
