@@ -102,7 +102,7 @@ Beyond ALL the dependencies applicable to the `master` branch, the `log_and_test
 [Boost](https://www.boost.org/) provides portable C++ source libraries that cover a very wide span of applications, from Linear Algebra to Image Processing. The code in this repo is focused on making use of the Logging and Testing capabilities
 
 #### _Download and Install Boost_
-The latest version of Boost can be downloaded from [here](https://www.boost.org/users/download/). The code in this repo has been tested up to ver. 1.72. The instructions on how to get started can be found [here](boost.org/doc/libs/1_72_0/more/getting_started/unix-variants.html) for Unix variants (Linux/MacOS) and [here](https://www.boost.org/doc/libs/1_72_0/more/getting_started/windows.html) for Windows systems.
+The latest version of Boost can be downloaded from [here](https://www.boost.org/users/download/). The code in this repo has been tested up to ver. **1.72**. The instructions on how to get started can be found [here](boost.org/doc/libs/1_72_0/more/getting_started/unix-variants.html) for Unix variants (Linux/MacOS) and [here](https://www.boost.org/doc/libs/1_72_0/more/getting_started/windows.html) for Windows systems.
 
 Summarizing the main instructions _for Unix systems_ we have:
 
