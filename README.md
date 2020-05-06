@@ -14,7 +14,7 @@ For it the goal is to write C++ code implementing a PID controller for a vehicle
 At the present moment this repo has two different branches: `master` and `log_and_test`. The main difference between the two branch is the implementation, in the second one, of a test suite and a logger functionality, both realised using the [Boost libraries](https://www.boost.org/).
 The `master` branch does not present this dependency, even if, as it will be explained in the following section, still has been designed to provide a debug capability.
 
-The reason for maintaining the branches separated is to keep the code for the actual project evaluation as simple as possible (the project does not actually require the implementation of logging/tests) and limit the number of dependencies (among the other thing, the code in `log_and_test` hasn't really beentested on multiple systems, and so at the present stage there is no guarantee on its portability).
+The reason for maintaining the branches separated is to keep the code for the actual project evaluation as simple as possible (the project does not actually require the implementation of logging/tests) and limit the number of dependencies. Aamong the other thing, the code in `log_and_test` hasn't really been tested on multiple systems, and so at the present stage there is no guarantee on its portability).
 Nonetheless, I am a firm believer in TDD (Test Driven Development) and I wanted to experiment on making these functionalities available for some C++ source code.
 
 The present README is common to the two branches, even if the rest of the repo changes: in the following I will describe how to build the code in the two cases. The source code for this project is in the [src](/src) folder: a detailed explanation is provided in a separate writeup, that documents also the results obtained.  
@@ -102,7 +102,7 @@ Beyond ALL the dependencies applicable to the `master` branch, the `log_and_test
 [Boost](https://www.boost.org/) provides portable C++ source libraries that cover a very wide span of applications, from Linear Algebra to Image Processing. The code in this repo is focused on making use of the Logging and Testing capabilities
 
 #### _Download and Install Boost_
-The latest version of Boost can be downloaded from [here](https://www.boost.org/users/download/). The code in this repo has been tested up to ver. 1.72. The instructions on how to get started can be found [here](boost.org/doc/libs/1_72_0/more/getting_started/unix-variants.html) for Unix variants (Linux/MacOS) and [here](https://www.boost.org/doc/libs/1_72_0/more/getting_started/windows.html) for Windows systems.
+The latest version of Boost can be downloaded from [here](https://www.boost.org/users/download/). The code in this repo has been tested up to ver. **1.72**. The instructions on how to get started can be found [here](boost.org/doc/libs/1_72_0/more/getting_started/unix-variants.html) for Unix variants (Linux/MacOS) and [here](https://www.boost.org/doc/libs/1_72_0/more/getting_started/windows.html) for Windows systems.
 
 Summarizing the main instructions _for Unix systems_ we have:
 
@@ -119,6 +119,8 @@ Summarizing the main instructions _for Unix systems_ we have:
 ```sh
   ./bootstrap.sh --prefix=path/to/installation/folder
 ```
+
+**NOTE**: Here `path/to/installation/folder` is the full path to the folder where you chhose to install the actual libraries.
 
 5. Change directory to the `path/to/istallation/folder` just defined and run:
 
@@ -155,7 +157,7 @@ This will output the log messages on the console and will also create a file wit
 
 ### _Logger operation/setup_
 
-The logger is configured through an external file called [`settings.txt`](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/blob/log_and_test/logs/settings.txt), in the [logs](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/tree/log_and_test/logs) folder. This implementation follows what documented [here](https://www.boost.org/doc/libs/1_72_0/libs/log/doc/html/log/detailed/utilities.html#log.detailed.utilities.setup.settings_file) and allows for changes in the logging structure (for example changes in the sinks, filtering or even enabling/disabling) without recompiling the code. At the moment both the console and the file sink are activated but they are configured with different severity levels, so to avoid flooding the terminal with messages. Anothere reference on how to build a logger using Boost (but without using the settings file) can be found [here](https://gernotklingler.com/blog/simple-customized-logger-based-boost-log-v2/). 
+The logger is configured through an external file called [`settings.txt`](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/blob/log_and_test/logs/settings.txt), in the [logs](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/tree/log_and_test/logs) folder. This implementation follows what documented [here](https://www.boost.org/doc/libs/1_72_0/libs/log/doc/html/log/detailed/utilities.html#log.detailed.utilities.setup.settings_file) and allows for changes in the logging structure (for example changes in the sinks, filtering or even enabling/disabling) without recompiling the code. At the moment both the console and the file sink are activated but they are configured with different severity levels, so to avoid flooding the terminal with messages. Anothere good reference on how to build a logger using Boost (but without using the settings file) can be found [here](https://gernotklingler.com/blog/simple-customized-logger-based-boost-log-v2/). 
 
 The log files are saved also in the [logs](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/tree/log_and_test/logs)  folder. The name of the file is built considering the date and time of the run, so to avoid overwritings.
 
@@ -221,5 +223,3 @@ More messages can be displayed by typing:
 ```
 
 Please note that in the `logs` folder there is a specific settings file to be used by the test suite ([`settings_for_text.txt`](https://github.com/In-Progress-M-Russo/CarND-P8-PID-Control/blob/log_and_test/logs/settings_for_test.txt)). In it the logger is just disabled for the testing.
-
-
