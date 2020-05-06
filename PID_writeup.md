@@ -197,7 +197,8 @@ _Gain_ | _Value_
 `Ki` | 0.116
 `Kd` | 2.9
 
-(See also the final section on further improvements)
+**NOTE**: About these values, see also the final section on further improvements.
+
 The track recorded in that case is the following:
 
 [![Tuning Run](http://img.youtube.com/vi/G1QeqORZkuI/0.jpg)](https://www.youtube.com/watch?v=G1QeqORZkuI "Tuning Run")
