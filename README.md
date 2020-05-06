@@ -120,6 +120,8 @@ Summarizing the main instructions _for Unix systems_ we have:
   ./bootstrap.sh --prefix=path/to/installation/folder
 ```
 
+**NOTE**: Here `path/to/installation/folder` is the full path to the folder where you chhose to install the actual libraries.
+
 5. Change directory to the `path/to/istallation/folder` just defined and run:
 
 ```sh
