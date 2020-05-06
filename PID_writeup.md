@@ -283,7 +283,7 @@ Finally, this branch contains an example of the log files in the [`logs`](./logs
 
 Another specific characteristic of this branch is the presence of a [`test`](./test) folder with a [`testPID.cpp`](./test/testPID.cpp) file. 
 
-The [README](README.md#test-framework) file already explains how to run the tests: this should happen after any change on any of the methods in [PID.cpp](./src/PID.cpp). As a further explanation note, the [`testPID.cpp`](./test/testPID.cpp) file is divided in few sections, for different capabilities provided by the various methods (Initialization, Settings of the gains, Calculation of the Error, Tuning). They all should be pretty straightforward to go through, even if the last one, given the multi-step nature of the algorithm, might take a bit of time.
+The [README](README.md#test-framework) file already explains how to run the tests: this should happen after any change on any of the methods in [`PID.cpp`](./src/PID.cpp). As a further explanation note, the [`testPID.cpp`](./test/testPID.cpp) file is divided in few sections, for different capabilities provided by the various methods (Initialization, Settings of the gains, Calculation of the Error, Tuning). They all should be pretty straightforward to go through, even if the last one, given the multi-step nature of the algorithm, might take a bit of time.
 
 Please note that this test suite is not intended in any way to provide full test coverage on the code: the intent was (and is) to demonstrate how to implement a viable unit test framework to produce better quality code.
 
