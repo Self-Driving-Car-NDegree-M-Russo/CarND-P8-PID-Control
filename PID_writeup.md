@@ -41,7 +41,7 @@ _Control_ | _Definition_
 
 The proportionality coefficients for each of the actions are often referred to as the controller's _Gains_.
 
-All the previous actions are implemented in [`PID.cpp`](./src/PID.cpp), separated in two methods: `UpdateError` (lines 173-191) and `OutputSteeringAngle` (lines 193-202).
+All the previous actions are implemented in [`PID.cpp`](./src/PID.cpp), separated in two methods: `UpdateError` (lines 179-197) and `OutputSteeringAngle` (lines 199-208).
 
 ### _Initialization_
 
