@@ -11,7 +11,7 @@ For it the goal is to write C++ code implementing a PID controller for a vehicle
 ---
 ## Difference between Branches
 
-At the present moment this repo has two different branches: `master` and `log_and_test`. The main difference between the two branch is the implementation, in the second one, of a test suite and a logger functionality, both realised using the [Boost libraries](https://www.boost.org/).
+At the present moment this repo has two different branches: `master` and `log_and_test`. The main difference between them is the implementation, in the second one, of a test suite and a logger functionality, both realised using the [Boost libraries](https://www.boost.org/).
 The `master` branch does not present this dependency, even if, as it will be explained in the following section, still has been designed to provide a debug capability.
 
 The reason for maintaining the branches separated is to keep the code for the actual project evaluation as simple as possible (the project does not actually require the implementation of logging/tests) and limit the number of dependencies. Aamong the other thing, the code in `log_and_test` hasn't really been tested on multiple systems, and so at the present stage there is no guarantee on its portability).
